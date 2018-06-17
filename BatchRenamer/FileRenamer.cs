@@ -32,17 +32,25 @@ namespace BatchRenamer
 
         public void AddFile(string path)
         {
-            OriginalFiles.Add(path);
-            string oldName = ShowExtensions ? Path.GetFileName(path) : Path.GetFileNameWithoutExtension(path);
-            string newName = ReplaceName(oldName);
-            DisplayData.Add(new FileNameInfo(path, oldName, newName));
+            if (!OriginalFiles.Contains(path))
+            {
+                OriginalFiles.Add(path);
+                string oldName = ShowExtensions ? Path.GetFileName(path) : Path.GetFileNameWithoutExtension(path);
+                string newName = ReplaceName(oldName);
+                DisplayData.Add(new FileNameInfo(path, oldName, newName));
+            }
         }
 
         public void RemoveFile(string path)
         {
             int index = OriginalFiles.IndexOf(path);
+            RemoveFile(index);
+        }
+
+        public void RemoveFile(int index)
+        {
             OriginalFiles.RemoveAt(index);
-            DisplayData.RemoveAt(index);
+            //DisplayData.RemoveAt(index);
         }
 
         public void RenameFiles()

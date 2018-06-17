@@ -28,14 +28,11 @@ namespace BatchRenamer
             renamer.AddFile(@"C:\test1.txt");
         }
 
-        private void newFilenamesDgv_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
-        {
-
-        }
-
         private void newFilenamesDgv_DragDrop(object sender, DragEventArgs e)
         {
-
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            foreach (string file in files)
+                renamer.AddFile(file);
         }
 
         private void newFilenamesDgv_DragEnter(object sender, DragEventArgs e)
@@ -44,6 +41,11 @@ namespace BatchRenamer
                 e.Effect = DragDropEffects.All;
             else
                 e.Effect = DragDropEffects.None;
+        }
+
+        private void newFilenamesDgv_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            renamer.RemoveFile(e.Row.Index);
         }
     }
 }

@@ -31,6 +31,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.newFilenamesDgv = new System.Windows.Forms.DataGridView();
+            this.oldName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.newName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,8 +43,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.oldName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.newName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.newFilenamesDgv)).BeginInit();
             this.panel1.SuspendLayout();
@@ -96,9 +96,21 @@
             this.newFilenamesDgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.newFilenamesDgv.Size = new System.Drawing.Size(771, 450);
             this.newFilenamesDgv.TabIndex = 8;
-            this.newFilenamesDgv.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.newFilenamesDgv_UserDeletedRow);
+            this.newFilenamesDgv.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.newFilenamesDgv_UserDeletingRow);
             this.newFilenamesDgv.DragDrop += new System.Windows.Forms.DragEventHandler(this.newFilenamesDgv_DragDrop);
             this.newFilenamesDgv.DragEnter += new System.Windows.Forms.DragEventHandler(this.newFilenamesDgv_DragEnter);
+            // 
+            // oldName
+            // 
+            this.oldName.HeaderText = "Old filename";
+            this.oldName.Name = "oldName";
+            this.oldName.ReadOnly = true;
+            // 
+            // newName
+            // 
+            this.newName.HeaderText = "New filename";
+            this.newName.Name = "newName";
+            this.newName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             // 
             // panel1
             // 
@@ -210,18 +222,6 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(383, 20);
             this.textBox2.TabIndex = 0;
-            // 
-            // oldName
-            // 
-            this.oldName.HeaderText = "Old filename";
-            this.oldName.Name = "oldName";
-            this.oldName.ReadOnly = true;
-            // 
-            // newName
-            // 
-            this.newName.HeaderText = "New filename";
-            this.newName.Name = "newName";
-            this.newName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             // 
             // Form1
             // 
