@@ -24,8 +24,6 @@ namespace BatchRenamer
             newFilenamesDgv.Columns["oldName"].DataPropertyName = "OldFileName";
             newFilenamesDgv.Columns["newName"].DataPropertyName = "NewFileName";
             newFilenamesDgv.DataSource = source;
-
-            renamer.AddFile(@"C:\test1.txt");
         }
 
         private void newFilenamesDgv_DragDrop(object sender, DragEventArgs e)
