@@ -47,5 +47,13 @@ namespace BatchRenamer
         {
             renamer.RemoveFile(e.Row.Index);
         }
+
+        private void newFilenamesDgv_CellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
+        {
+            if(e.RowIndex != -1)
+            {
+                e.ToolTipText = renamer.DisplayData[e.RowIndex].FilePath;
+            }
+        }
     }
 }

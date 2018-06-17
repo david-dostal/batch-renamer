@@ -96,6 +96,7 @@
             this.newFilenamesDgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.newFilenamesDgv.Size = new System.Drawing.Size(771, 450);
             this.newFilenamesDgv.TabIndex = 8;
+            this.newFilenamesDgv.CellToolTipTextNeeded += new System.Windows.Forms.DataGridViewCellToolTipTextNeededEventHandler(this.newFilenamesDgv_CellToolTipTextNeeded);
             this.newFilenamesDgv.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.newFilenamesDgv_UserDeletingRow);
             this.newFilenamesDgv.DragDrop += new System.Windows.Forms.DragEventHandler(this.newFilenamesDgv_DragDrop);
             this.newFilenamesDgv.DragEnter += new System.Windows.Forms.DragEventHandler(this.newFilenamesDgv_DragEnter);
