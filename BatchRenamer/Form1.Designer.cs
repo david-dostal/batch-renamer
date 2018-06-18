@@ -28,51 +28,51 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.layoutTlp = new System.Windows.Forms.TableLayoutPanel();
             this.newFilenamesDgv = new System.Windows.Forms.DataGridView();
             this.oldName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.newName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.FindPatternTbx = new System.Windows.Forms.TextBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.renameBtn = new System.Windows.Forms.Button();
-            this.openFolderBtn = new System.Windows.Forms.Button();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.findPnl = new System.Windows.Forms.Panel();
+            this.fileExtensionsCbx = new System.Windows.Forms.CheckBox();
+            this.useRegexCbx = new System.Windows.Forms.CheckBox();
+            this.caseSensitiveCbx = new System.Windows.Forms.CheckBox();
+            this.findLbl = new System.Windows.Forms.Label();
+            this.findPatternTbx = new System.Windows.Forms.TextBox();
+            this.replacePnl = new System.Windows.Forms.Panel();
+            this.replaceLbl = new System.Windows.Forms.Label();
             this.replacePatternTbx = new System.Windows.Forms.TextBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.openFolderBtn = new System.Windows.Forms.Button();
+            this.renameBtn = new System.Windows.Forms.Button();
+            this.statusbarStStrip = new System.Windows.Forms.StatusStrip();
+            this.fileCountStLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.selectedCountTsLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.layoutTlp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.newFilenamesDgv)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            this.findPnl.SuspendLayout();
+            this.replacePnl.SuspendLayout();
+            this.statusbarStStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // layoutTlp
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.newFilenamesDgv, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.statusStrip1, 0, 2);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(683, 453);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.layoutTlp.ColumnCount = 2;
+            this.layoutTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.layoutTlp.Controls.Add(this.newFilenamesDgv, 0, 1);
+            this.layoutTlp.Controls.Add(this.findPnl, 0, 0);
+            this.layoutTlp.Controls.Add(this.replacePnl, 1, 0);
+            this.layoutTlp.Controls.Add(this.statusbarStStrip, 0, 2);
+            this.layoutTlp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layoutTlp.Location = new System.Drawing.Point(0, 0);
+            this.layoutTlp.Margin = new System.Windows.Forms.Padding(0);
+            this.layoutTlp.Name = "layoutTlp";
+            this.layoutTlp.RowCount = 3;
+            this.layoutTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.layoutTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.layoutTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.layoutTlp.Size = new System.Drawing.Size(683, 453);
+            this.layoutTlp.TabIndex = 0;
             // 
             // newFilenamesDgv
             // 
@@ -86,15 +86,15 @@
             this.newFilenamesDgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.oldName,
             this.newName});
-            this.tableLayoutPanel1.SetColumnSpan(this.newFilenamesDgv, 2);
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.AliceBlue;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.newFilenamesDgv.DefaultCellStyle = dataGridViewCellStyle3;
+            this.layoutTlp.SetColumnSpan(this.newFilenamesDgv, 2);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.AliceBlue;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.newFilenamesDgv.DefaultCellStyle = dataGridViewCellStyle1;
             this.newFilenamesDgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.newFilenamesDgv.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.newFilenamesDgv.Location = new System.Drawing.Point(0, 60);
@@ -105,7 +105,6 @@
             this.newFilenamesDgv.Size = new System.Drawing.Size(683, 373);
             this.newFilenamesDgv.TabIndex = 8;
             this.newFilenamesDgv.CellToolTipTextNeeded += new System.Windows.Forms.DataGridViewCellToolTipTextNeededEventHandler(this.newFilenamesDgv_CellToolTipTextNeeded);
-            this.newFilenamesDgv.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.newFilenamesDgv_UserDeletingRow);
             this.newFilenamesDgv.DragDrop += new System.Windows.Forms.DragEventHandler(this.newFilenamesDgv_DragDrop);
             this.newFilenamesDgv.DragEnter += new System.Windows.Forms.DragEventHandler(this.newFilenamesDgv_DragEnter);
             // 
@@ -121,120 +120,100 @@
             this.newName.Name = "newName";
             this.newName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             // 
-            // panel1
+            // findPnl
             // 
-            this.panel1.Controls.Add(this.checkBox3);
-            this.panel1.Controls.Add(this.checkBox2);
-            this.panel1.Controls.Add(this.checkBox1);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.FindPatternTbx);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(3);
-            this.panel1.Size = new System.Drawing.Size(341, 60);
-            this.panel1.TabIndex = 4;
+            this.findPnl.Controls.Add(this.fileExtensionsCbx);
+            this.findPnl.Controls.Add(this.useRegexCbx);
+            this.findPnl.Controls.Add(this.caseSensitiveCbx);
+            this.findPnl.Controls.Add(this.findLbl);
+            this.findPnl.Controls.Add(this.findPatternTbx);
+            this.findPnl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.findPnl.Location = new System.Drawing.Point(0, 0);
+            this.findPnl.Margin = new System.Windows.Forms.Padding(0);
+            this.findPnl.Name = "findPnl";
+            this.findPnl.Padding = new System.Windows.Forms.Padding(3);
+            this.findPnl.Size = new System.Drawing.Size(341, 60);
+            this.findPnl.TabIndex = 4;
             // 
-            // label1
+            // fileExtensionsCbx
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(6, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Find:";
+            this.fileExtensionsCbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.fileExtensionsCbx.AutoSize = true;
+            this.fileExtensionsCbx.Location = new System.Drawing.Point(240, 8);
+            this.fileExtensionsCbx.Name = "fileExtensionsCbx";
+            this.fileExtensionsCbx.Size = new System.Drawing.Size(95, 17);
+            this.fileExtensionsCbx.TabIndex = 7;
+            this.fileExtensionsCbx.Text = "File extensions";
+            this.fileExtensionsCbx.UseVisualStyleBackColor = true;
             // 
-            // FindPatternTbx
+            // useRegexCbx
             // 
-            this.FindPatternTbx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.useRegexCbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.useRegexCbx.AutoSize = true;
+            this.useRegexCbx.Checked = true;
+            this.useRegexCbx.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.useRegexCbx.Location = new System.Drawing.Point(177, 8);
+            this.useRegexCbx.Name = "useRegexCbx";
+            this.useRegexCbx.Size = new System.Drawing.Size(57, 17);
+            this.useRegexCbx.TabIndex = 6;
+            this.useRegexCbx.Text = "Regex";
+            this.useRegexCbx.UseVisualStyleBackColor = true;
+            // 
+            // caseSensitiveCbx
+            // 
+            this.caseSensitiveCbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.caseSensitiveCbx.AutoSize = true;
+            this.caseSensitiveCbx.Checked = true;
+            this.caseSensitiveCbx.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.caseSensitiveCbx.Location = new System.Drawing.Point(77, 8);
+            this.caseSensitiveCbx.Name = "caseSensitiveCbx";
+            this.caseSensitiveCbx.Size = new System.Drawing.Size(94, 17);
+            this.caseSensitiveCbx.TabIndex = 5;
+            this.caseSensitiveCbx.Text = "Case sensitive";
+            this.caseSensitiveCbx.UseVisualStyleBackColor = true;
+            // 
+            // findLbl
+            // 
+            this.findLbl.AutoSize = true;
+            this.findLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.findLbl.Location = new System.Drawing.Point(6, 9);
+            this.findLbl.Name = "findLbl";
+            this.findLbl.Size = new System.Drawing.Size(35, 13);
+            this.findLbl.TabIndex = 3;
+            this.findLbl.Text = "Find:";
+            // 
+            // findPatternTbx
+            // 
+            this.findPatternTbx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FindPatternTbx.Location = new System.Drawing.Point(6, 32);
-            this.FindPatternTbx.Name = "FindPatternTbx";
-            this.FindPatternTbx.Size = new System.Drawing.Size(329, 20);
-            this.FindPatternTbx.TabIndex = 0;
+            this.findPatternTbx.Location = new System.Drawing.Point(6, 32);
+            this.findPatternTbx.Name = "findPatternTbx";
+            this.findPatternTbx.Size = new System.Drawing.Size(329, 20);
+            this.findPatternTbx.TabIndex = 0;
             // 
-            // panel2
+            // replacePnl
             // 
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.replacePatternTbx);
-            this.panel2.Controls.Add(this.openFolderBtn);
-            this.panel2.Controls.Add(this.renameBtn);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(341, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(0);
-            this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(3);
-            this.panel2.Size = new System.Drawing.Size(342, 60);
-            this.panel2.TabIndex = 5;
+            this.replacePnl.Controls.Add(this.replaceLbl);
+            this.replacePnl.Controls.Add(this.replacePatternTbx);
+            this.replacePnl.Controls.Add(this.openFolderBtn);
+            this.replacePnl.Controls.Add(this.renameBtn);
+            this.replacePnl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.replacePnl.Location = new System.Drawing.Point(341, 0);
+            this.replacePnl.Margin = new System.Windows.Forms.Padding(0);
+            this.replacePnl.Name = "replacePnl";
+            this.replacePnl.Padding = new System.Windows.Forms.Padding(3);
+            this.replacePnl.Size = new System.Drawing.Size(342, 60);
+            this.replacePnl.TabIndex = 5;
             // 
-            // renameBtn
+            // replaceLbl
             // 
-            this.renameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.renameBtn.Location = new System.Drawing.Point(244, 6);
-            this.renameBtn.Name = "renameBtn";
-            this.renameBtn.Size = new System.Drawing.Size(92, 23);
-            this.renameBtn.TabIndex = 1;
-            this.renameBtn.Text = "Rename files";
-            this.renameBtn.UseVisualStyleBackColor = true;
-            // 
-            // openFolderBtn
-            // 
-            this.openFolderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.openFolderBtn.Location = new System.Drawing.Point(163, 6);
-            this.openFolderBtn.Name = "openFolderBtn";
-            this.openFolderBtn.Size = new System.Drawing.Size(75, 23);
-            this.openFolderBtn.TabIndex = 6;
-            this.openFolderBtn.Text = "Open folder";
-            this.openFolderBtn.UseVisualStyleBackColor = true;
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(240, 8);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(95, 17);
-            this.checkBox3.TabIndex = 7;
-            this.checkBox3.Text = "File extensions";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = true;
-            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(177, 8);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(57, 17);
-            this.checkBox2.TabIndex = 6;
-            this.checkBox2.Text = "Regex";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(77, 8);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(94, 17);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "Case sensitive";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(6, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(85, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Replace with:";
+            this.replaceLbl.AutoSize = true;
+            this.replaceLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.replaceLbl.Location = new System.Drawing.Point(6, 9);
+            this.replaceLbl.Name = "replaceLbl";
+            this.replaceLbl.Size = new System.Drawing.Size(85, 13);
+            this.replaceLbl.TabIndex = 8;
+            this.replaceLbl.Text = "Replace with:";
             // 
             // replacePatternTbx
             // 
@@ -245,29 +224,50 @@
             this.replacePatternTbx.Size = new System.Drawing.Size(330, 20);
             this.replacePatternTbx.TabIndex = 7;
             // 
-            // statusStrip1
+            // openFolderBtn
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.statusStrip1, 2);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 433);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(683, 20);
-            this.statusStrip1.TabIndex = 9;
-            this.statusStrip1.Text = "statusStrip1";
+            this.openFolderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.openFolderBtn.Location = new System.Drawing.Point(163, 6);
+            this.openFolderBtn.Name = "openFolderBtn";
+            this.openFolderBtn.Size = new System.Drawing.Size(75, 23);
+            this.openFolderBtn.TabIndex = 6;
+            this.openFolderBtn.Text = "Open folder";
+            this.openFolderBtn.UseVisualStyleBackColor = true;
+            this.openFolderBtn.Click += new System.EventHandler(this.openFolderBtn_Click);
             // 
-            // toolStripStatusLabel1
+            // renameBtn
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(42, 15);
-            this.toolStripStatusLabel1.Text = "Files: 0";
+            this.renameBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.renameBtn.Location = new System.Drawing.Point(244, 6);
+            this.renameBtn.Name = "renameBtn";
+            this.renameBtn.Size = new System.Drawing.Size(92, 23);
+            this.renameBtn.TabIndex = 1;
+            this.renameBtn.Text = "Rename files";
+            this.renameBtn.UseVisualStyleBackColor = true;
+            this.renameBtn.Click += new System.EventHandler(this.renameBtn_Click);
             // 
-            // toolStripStatusLabel2
+            // statusbarStStrip
             // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(63, 15);
-            this.toolStripStatusLabel2.Text = "Selected: 0";
+            this.layoutTlp.SetColumnSpan(this.statusbarStStrip, 2);
+            this.statusbarStStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileCountStLbl,
+            this.selectedCountTsLbl});
+            this.statusbarStStrip.Location = new System.Drawing.Point(0, 433);
+            this.statusbarStStrip.Name = "statusbarStStrip";
+            this.statusbarStStrip.Size = new System.Drawing.Size(683, 20);
+            this.statusbarStStrip.TabIndex = 9;
+            // 
+            // fileCountStLbl
+            // 
+            this.fileCountStLbl.Name = "fileCountStLbl";
+            this.fileCountStLbl.Size = new System.Drawing.Size(42, 15);
+            this.fileCountStLbl.Text = "Files: 0";
+            // 
+            // selectedCountTsLbl
+            // 
+            this.selectedCountTsLbl.Name = "selectedCountTsLbl";
+            this.selectedCountTsLbl.Size = new System.Drawing.Size(63, 15);
+            this.selectedCountTsLbl.Text = "Selected: 0";
             // 
             // Form1
             // 
@@ -275,45 +275,45 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(683, 453);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.layoutTlp);
             this.MinimumSize = new System.Drawing.Size(635, 256);
             this.Name = "Form1";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BatchRenamer";
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.layoutTlp.ResumeLayout(false);
+            this.layoutTlp.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.newFilenamesDgv)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.findPnl.ResumeLayout(false);
+            this.findPnl.PerformLayout();
+            this.replacePnl.ResumeLayout(false);
+            this.replacePnl.PerformLayout();
+            this.statusbarStStrip.ResumeLayout(false);
+            this.statusbarStStrip.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox FindPatternTbx;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TableLayoutPanel layoutTlp;
+        private System.Windows.Forms.Panel findPnl;
+        private System.Windows.Forms.Label findLbl;
+        private System.Windows.Forms.TextBox findPatternTbx;
+        private System.Windows.Forms.Panel replacePnl;
         private System.Windows.Forms.Button renameBtn;
         private System.Windows.Forms.DataGridView newFilenamesDgv;
         private System.Windows.Forms.DataGridViewTextBoxColumn oldName;
         private System.Windows.Forms.DataGridViewTextBoxColumn newName;
         private System.Windows.Forms.Button openFolderBtn;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox fileExtensionsCbx;
+        private System.Windows.Forms.CheckBox useRegexCbx;
+        private System.Windows.Forms.CheckBox caseSensitiveCbx;
+        private System.Windows.Forms.Label replaceLbl;
         private System.Windows.Forms.TextBox replacePatternTbx;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.StatusStrip statusbarStStrip;
+        private System.Windows.Forms.ToolStripStatusLabel fileCountStLbl;
+        private System.Windows.Forms.ToolStripStatusLabel selectedCountTsLbl;
     }
 }
 
