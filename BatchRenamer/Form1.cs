@@ -33,8 +33,11 @@ namespace BatchRenamer
 
             findPatternTbx.DataBindings.Add(nameof(findPatternTbx.Text), renamer, nameof(renamer.FindString), false, DataSourceUpdateMode.OnPropertyChanged);
             replacePatternTbx.DataBindings.Add(nameof(replacePatternTbx.Text), renamer, nameof(renamer.ReplaceString), false, DataSourceUpdateMode.OnPropertyChanged);
+
+            renamer.FilterUpdated += (s, e) => UpdateFileNames();
         }
 
+        private void UpdateFileNames() => newFilenamesDgv.Refresh();
         private void UpdateFilesCount() => fileCountStLbl.Text = $"Files: {newFilenamesDgv.RowCount}";
         private void UpdateSelectedCount() => selectedCountTsLbl.Text = $"Selected: {newFilenamesDgv.SelectedRows.Count}";
 

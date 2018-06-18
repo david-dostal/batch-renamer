@@ -12,14 +12,43 @@ namespace BatchRenamer
 {
     public class FileRenamer
     {
+        public event EventHandler<EventArgs> FilterUpdated;
         public BindingList<string> FileNames { get; set; } = new BindingList<string>();
 
-        public string FindString { get; set; } = "";
-        public string ReplaceString { get; set; } = "";
+        protected string _findString = "";
+        public string FindString
+        {
+            get => _findString;
+            set { _findString = value; OnFilterUpdated(); }
+        }
 
-        public bool IsCaseSensitive { get; set; } = true;
-        public bool UseRegex { get; set; } = true;
-        public bool ShowExtensions { get; set; } = false;
+        protected string _replacString = "";
+        public string ReplaceString
+        {
+            get => _replacString;
+            set { _replacString = value; OnFilterUpdated(); }
+        }
+
+        protected bool _isCaseSensitive = true;
+        public bool IsCaseSensitive
+        {
+            get => _isCaseSensitive;
+            set { _isCaseSensitive = value; OnFilterUpdated(); }
+        }
+
+        protected bool _useRegex = true;
+        public bool UseRegex
+        {
+            get => _useRegex;
+            set { _useRegex = value; OnFilterUpdated(); }
+        }
+
+        protected bool _showExtensions = false;
+        public bool ShowExtensions
+        {
+            get => _showExtensions;
+            set { _showExtensions = value; OnFilterUpdated(); }
+        }
 
         public FileRenamer()
         {
@@ -48,7 +77,12 @@ namespace BatchRenamer
             string replaceRegex = UseRegex ? ReplaceString : Regex.Escape(ReplaceString);
             RegexOptions options = IsCaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
             string fileName = GetFileName(path);
-            return Regex.Replace(fileName, findRegex, replaceRegex, options);
+            return Regex.Unescape(Regex.Replace(fileName, findRegex, replaceRegex, options));
+        }
+
+        public void OnFilterUpdated()
+        {
+            FilterUpdated?.Invoke(this, new EventArgs());
         }
     }
 }
