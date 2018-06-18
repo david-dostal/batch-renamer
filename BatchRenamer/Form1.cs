@@ -15,9 +15,13 @@ namespace BatchRenamer
     public partial class Form1 : Form
     {
         private FileRenamer renamer = new FileRenamer();
+
         public Form1()
         {
             InitializeComponent();
+            newFilenamesDgv.RowsAdded += (s, e) => UpdateFilesCount();
+            newFilenamesDgv.RowsRemoved += (s, e) => UpdateFilesCount();
+            newFilenamesDgv.SelectionChanged += (s, e) => UpdateSelectedCount();
 
             newFilenamesDgv.CellFormatting += NewFilenamesDgv_CellFormatting;
             newFilenamesDgv.AutoGenerateColumns = false;
@@ -30,6 +34,9 @@ namespace BatchRenamer
             findPatternTbx.DataBindings.Add(nameof(findPatternTbx.Text), renamer, nameof(renamer.FindString), false, DataSourceUpdateMode.OnPropertyChanged);
             replacePatternTbx.DataBindings.Add(nameof(replacePatternTbx.Text), renamer, nameof(renamer.ReplaceString), false, DataSourceUpdateMode.OnPropertyChanged);
         }
+
+        private void UpdateFilesCount() => fileCountStLbl.Text = $"Files: {newFilenamesDgv.RowCount}";
+        private void UpdateSelectedCount() => selectedCountTsLbl.Text = $"Selected: {newFilenamesDgv.SelectedRows.Count}";
 
         private void NewFilenamesDgv_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
