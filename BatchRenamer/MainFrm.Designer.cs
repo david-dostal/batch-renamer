@@ -81,11 +81,12 @@
             // newFilenamesDgv
             // 
             this.newFilenamesDgv.AllowDrop = true;
+            this.newFilenamesDgv.AllowUserToAddRows = false;
             this.newFilenamesDgv.AllowUserToResizeColumns = false;
             this.newFilenamesDgv.AllowUserToResizeRows = false;
             this.newFilenamesDgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.newFilenamesDgv.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.newFilenamesDgv.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.newFilenamesDgv.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.newFilenamesDgv.ColumnHeadersHeight = 26;
             this.newFilenamesDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.newFilenamesDgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {

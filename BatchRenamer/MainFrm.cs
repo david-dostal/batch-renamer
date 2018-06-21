@@ -53,12 +53,13 @@ namespace BatchRenamer
                 throw new Exception($"Unknown column no {column}");
         }
 
-        private void newFilenamesDgv_DragDrop(object sender, DragEventArgs e)
+        private void newFilenamesDgv_CellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            foreach (string file in files)
-                renamer.AddFile(file);
+            if (e.RowIndex != -1)
+                e.ToolTipText = renamer.FileNames[e.RowIndex];
         }
+
+        private void renameBtn_Click(object sender, EventArgs e) => renamer.RenameFiles();
 
         private void newFilenamesDgv_DragEnter(object sender, DragEventArgs e)
         {
@@ -68,18 +69,17 @@ namespace BatchRenamer
                 e.Effect = DragDropEffects.None;
         }
 
-        private void newFilenamesDgv_CellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
-        {
-            if (e.RowIndex != -1)
-                e.ToolTipText = renamer.FileNames[e.RowIndex];
-        }
+        private void newFilenamesDgv_DragDrop(object sender, DragEventArgs e) =>
+            AddFiles((string[])e.Data.GetData(DataFormats.FileDrop));
 
-        private void renameBtn_Click(object sender, EventArgs e) => renamer.RenameFiles();
 
         private void openFolderBtn_Click(object sender, EventArgs e)
         {
             if (addFilesOfs.ShowDialog(this) == DialogResult.OK)
-                renamer.AddFiles(addFilesOfs.FileNames);
+                AddFiles(addFilesOfs.FileNames);
         }
+
+        private void AddFiles(IEnumerable<string> fileNames) =>
+            renamer.AddFiles(fileNames.Where((name) => File.Exists(name)));
     }
 }
