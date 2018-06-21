@@ -12,11 +12,11 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace BatchRenamer
 {
-    public partial class Form1 : Form
+    public partial class MainFrm : Form
     {
         private FileRenamer renamer = new FileRenamer();
 
-        public Form1()
+        public MainFrm()
         {
             InitializeComponent();
             newFilenamesDgv.RowsAdded += (s, e) => UpdateFilesCount();
@@ -34,7 +34,7 @@ namespace BatchRenamer
             findPatternTbx.DataBindings.Add(nameof(findPatternTbx.Text), renamer, nameof(renamer.FindString), false, DataSourceUpdateMode.OnPropertyChanged);
             replacePatternTbx.DataBindings.Add(nameof(replacePatternTbx.Text), renamer, nameof(renamer.ReplaceString), false, DataSourceUpdateMode.OnPropertyChanged);
 
-            renamer.FilterUpdated += (s, e) => UpdateFileNames();
+            renamer.FileNamesUpdated += (s, e) => UpdateFileNames();
         }
 
         private void UpdateFileNames() => newFilenamesDgv.Refresh();
@@ -80,19 +80,8 @@ namespace BatchRenamer
 
         private void openFolderBtn_Click(object sender, EventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.IsFolderPicker = true;
-            dialog.ShowHiddenItems = false;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                string folderPath = dialog.FileName;
-                FileInfo[] files = new DirectoryInfo(folderPath).GetFiles();
-                foreach (FileInfo file in files)
-                {
-                    if (!file.Attributes.HasFlag(FileAttributes.Hidden))
-                        renamer.AddFile(file.FullName);
-                }
-            }
+            if (addFilesOfs.ShowDialog(this) == DialogResult.OK)
+                renamer.AddFiles(addFilesOfs.FileNames);
         }
     }
 }

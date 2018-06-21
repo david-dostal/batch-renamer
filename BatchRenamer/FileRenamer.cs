@@ -12,42 +12,42 @@ namespace BatchRenamer
 {
     public class FileRenamer
     {
-        public event EventHandler<EventArgs> FilterUpdated;
+        public event EventHandler<EventArgs> FileNamesUpdated;
         public BindingList<string> FileNames { get; set; } = new BindingList<string>();
 
         protected string _findString = "";
         public string FindString
         {
             get => _findString;
-            set { _findString = value; OnFilterUpdated(); }
+            set { _findString = value; OnFileNamesUpdated(); }
         }
 
         protected string _replacString = "";
         public string ReplaceString
         {
             get => _replacString;
-            set { _replacString = value; OnFilterUpdated(); }
+            set { _replacString = value; OnFileNamesUpdated(); }
         }
 
         protected bool _isCaseSensitive = true;
         public bool IsCaseSensitive
         {
             get => _isCaseSensitive;
-            set { _isCaseSensitive = value; OnFilterUpdated(); }
+            set { _isCaseSensitive = value; OnFileNamesUpdated(); }
         }
 
         protected bool _useRegex = true;
         public bool UseRegex
         {
             get => _useRegex;
-            set { _useRegex = value; OnFilterUpdated(); }
+            set { _useRegex = value; OnFileNamesUpdated(); }
         }
 
         protected bool _showExtensions = false;
         public bool ShowExtensions
         {
             get => _showExtensions;
-            set { _showExtensions = value; OnFilterUpdated(); }
+            set { _showExtensions = value; OnFileNamesUpdated(); }
         }
 
         public FileRenamer()
@@ -61,11 +61,30 @@ namespace BatchRenamer
                 FileNames.Add(path);
         }
 
+        public void AddFiles(IEnumerable<string> files)
+        {
+            foreach (string file in files)
+                AddFile(file);
+        }
+
         public void RemoveFile(int index) => FileNames.RemoveAt(index);
 
         public void RenameFiles()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < FileNames.Count; i++)
+            {
+                string oldFile = FileNames[i];
+                string newName = GetReplacedName(oldFile);
+                if (!ShowExtensions) newName += Path.GetExtension(oldFile);
+                string newFile = Path.Combine(Path.GetDirectoryName(oldFile), newName);
+                if (File.Exists(oldFile) && !File.Exists(newFile))
+                {
+                    File.Move(oldFile, newFile);
+                    FileNames[i] = newFile;
+                }
+
+            }
+            OnFileNamesUpdated();
         }
 
         public string GetFileName(string path) =>
@@ -80,9 +99,9 @@ namespace BatchRenamer
             return Regex.Unescape(Regex.Replace(fileName, findRegex, replaceRegex, options));
         }
 
-        public void OnFilterUpdated()
+        public void OnFileNamesUpdated()
         {
-            FilterUpdated?.Invoke(this, new EventArgs());
+            FileNamesUpdated?.Invoke(this, new EventArgs());
         }
     }
 }

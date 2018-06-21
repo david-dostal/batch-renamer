@@ -1,6 +1,6 @@
 ﻿namespace BatchRenamer
 {
-    partial class Form1
+    partial class MainFrm
     {
         /// <summary>
         /// Required designer variable.
@@ -42,11 +42,12 @@
             this.replacePnl = new System.Windows.Forms.Panel();
             this.replaceLbl = new System.Windows.Forms.Label();
             this.replacePatternTbx = new System.Windows.Forms.TextBox();
-            this.openFolderBtn = new System.Windows.Forms.Button();
+            this.addFilesBtn = new System.Windows.Forms.Button();
             this.renameBtn = new System.Windows.Forms.Button();
             this.statusbarStStrip = new System.Windows.Forms.StatusStrip();
             this.fileCountStLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.selectedCountTsLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.addFilesOfs = new System.Windows.Forms.OpenFileDialog();
             this.layoutTlp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.newFilenamesDgv)).BeginInit();
             this.findPnl.SuspendLayout();
@@ -195,7 +196,7 @@
             // 
             this.replacePnl.Controls.Add(this.replaceLbl);
             this.replacePnl.Controls.Add(this.replacePatternTbx);
-            this.replacePnl.Controls.Add(this.openFolderBtn);
+            this.replacePnl.Controls.Add(this.addFilesBtn);
             this.replacePnl.Controls.Add(this.renameBtn);
             this.replacePnl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.replacePnl.Location = new System.Drawing.Point(341, 0);
@@ -224,16 +225,16 @@
             this.replacePatternTbx.Size = new System.Drawing.Size(330, 20);
             this.replacePatternTbx.TabIndex = 7;
             // 
-            // openFolderBtn
+            // addFilesBtn
             // 
-            this.openFolderBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.openFolderBtn.Location = new System.Drawing.Point(163, 6);
-            this.openFolderBtn.Name = "openFolderBtn";
-            this.openFolderBtn.Size = new System.Drawing.Size(75, 23);
-            this.openFolderBtn.TabIndex = 6;
-            this.openFolderBtn.Text = "Open folder";
-            this.openFolderBtn.UseVisualStyleBackColor = true;
-            this.openFolderBtn.Click += new System.EventHandler(this.openFolderBtn_Click);
+            this.addFilesBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.addFilesBtn.Location = new System.Drawing.Point(163, 6);
+            this.addFilesBtn.Name = "addFilesBtn";
+            this.addFilesBtn.Size = new System.Drawing.Size(75, 23);
+            this.addFilesBtn.TabIndex = 6;
+            this.addFilesBtn.Text = "AddFiles";
+            this.addFilesBtn.UseVisualStyleBackColor = true;
+            this.addFilesBtn.Click += new System.EventHandler(this.openFolderBtn_Click);
             // 
             // renameBtn
             // 
@@ -269,7 +270,11 @@
             this.selectedCountTsLbl.Size = new System.Drawing.Size(63, 15);
             this.selectedCountTsLbl.Text = "Selected: 0";
             // 
-            // Form1
+            // addFilesOfs
+            // 
+            this.addFilesOfs.Multiselect = true;
+            // 
+            // MainFrm
             // 
             this.AcceptButton = this.renameBtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -277,7 +282,7 @@
             this.ClientSize = new System.Drawing.Size(683, 453);
             this.Controls.Add(this.layoutTlp);
             this.MinimumSize = new System.Drawing.Size(635, 256);
-            this.Name = "Form1";
+            this.Name = "MainFrm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BatchRenamer";
@@ -305,7 +310,7 @@
         private System.Windows.Forms.DataGridView newFilenamesDgv;
         private System.Windows.Forms.DataGridViewTextBoxColumn oldName;
         private System.Windows.Forms.DataGridViewTextBoxColumn newName;
-        private System.Windows.Forms.Button openFolderBtn;
+        private System.Windows.Forms.Button addFilesBtn;
         private System.Windows.Forms.CheckBox fileExtensionsCbx;
         private System.Windows.Forms.CheckBox useRegexCbx;
         private System.Windows.Forms.CheckBox caseSensitiveCbx;
@@ -314,6 +319,7 @@
         private System.Windows.Forms.StatusStrip statusbarStStrip;
         private System.Windows.Forms.ToolStripStatusLabel fileCountStLbl;
         private System.Windows.Forms.ToolStripStatusLabel selectedCountTsLbl;
+        private System.Windows.Forms.OpenFileDialog addFilesOfs;
     }
 }
 
