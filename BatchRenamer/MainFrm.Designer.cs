@@ -60,18 +60,21 @@
             this.layoutTlp.ColumnCount = 2;
             this.layoutTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.layoutTlp.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.layoutTlp.Controls.Add(this.newFilenamesDgv, 0, 1);
+            this.layoutTlp.Controls.Add(this.newFilenamesDgv, 0, 2);
+            this.layoutTlp.Controls.Add(this.replacePatternTbx, 1, 1);
             this.layoutTlp.Controls.Add(this.findPnl, 0, 0);
             this.layoutTlp.Controls.Add(this.replacePnl, 1, 0);
-            this.layoutTlp.Controls.Add(this.statusbarStStrip, 0, 2);
+            this.layoutTlp.Controls.Add(this.statusbarStStrip, 0, 3);
+            this.layoutTlp.Controls.Add(this.findPatternTbx, 0, 1);
             this.layoutTlp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutTlp.Location = new System.Drawing.Point(0, 0);
             this.layoutTlp.Margin = new System.Windows.Forms.Padding(0);
             this.layoutTlp.Name = "layoutTlp";
-            this.layoutTlp.RowCount = 3;
-            this.layoutTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.layoutTlp.RowCount = 4;
+            this.layoutTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.layoutTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.layoutTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.layoutTlp.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.layoutTlp.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.layoutTlp.Size = new System.Drawing.Size(683, 453);
             this.layoutTlp.TabIndex = 0;
             // 
@@ -83,7 +86,8 @@
             this.newFilenamesDgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.newFilenamesDgv.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.newFilenamesDgv.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.newFilenamesDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.newFilenamesDgv.ColumnHeadersHeight = 26;
+            this.newFilenamesDgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.newFilenamesDgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.oldName,
             this.newName});
@@ -98,13 +102,13 @@
             this.newFilenamesDgv.DefaultCellStyle = dataGridViewCellStyle1;
             this.newFilenamesDgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.newFilenamesDgv.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.newFilenamesDgv.Location = new System.Drawing.Point(0, 60);
+            this.newFilenamesDgv.Location = new System.Drawing.Point(0, 61);
             this.newFilenamesDgv.Margin = new System.Windows.Forms.Padding(0);
             this.newFilenamesDgv.Name = "newFilenamesDgv";
             this.newFilenamesDgv.RowHeadersVisible = false;
             this.newFilenamesDgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.newFilenamesDgv.Size = new System.Drawing.Size(683, 373);
-            this.newFilenamesDgv.TabIndex = 8;
+            this.newFilenamesDgv.Size = new System.Drawing.Size(683, 370);
+            this.newFilenamesDgv.TabIndex = 2;
             this.newFilenamesDgv.CellToolTipTextNeeded += new System.Windows.Forms.DataGridViewCellToolTipTextNeededEventHandler(this.newFilenamesDgv_CellToolTipTextNeeded);
             this.newFilenamesDgv.DragDrop += new System.Windows.Forms.DragEventHandler(this.newFilenamesDgv_DragDrop);
             this.newFilenamesDgv.DragEnter += new System.Windows.Forms.DragEventHandler(this.newFilenamesDgv_DragEnter);
@@ -123,28 +127,28 @@
             // 
             // findPnl
             // 
+            this.findPnl.AutoSize = true;
             this.findPnl.Controls.Add(this.fileExtensionsCbx);
             this.findPnl.Controls.Add(this.useRegexCbx);
             this.findPnl.Controls.Add(this.caseSensitiveCbx);
             this.findPnl.Controls.Add(this.findLbl);
-            this.findPnl.Controls.Add(this.findPatternTbx);
             this.findPnl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.findPnl.Location = new System.Drawing.Point(0, 0);
             this.findPnl.Margin = new System.Windows.Forms.Padding(0);
             this.findPnl.Name = "findPnl";
             this.findPnl.Padding = new System.Windows.Forms.Padding(3);
-            this.findPnl.Size = new System.Drawing.Size(341, 60);
+            this.findPnl.Size = new System.Drawing.Size(341, 35);
             this.findPnl.TabIndex = 4;
             // 
             // fileExtensionsCbx
             // 
             this.fileExtensionsCbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.fileExtensionsCbx.AutoSize = true;
-            this.fileExtensionsCbx.Location = new System.Drawing.Point(240, 8);
+            this.fileExtensionsCbx.Location = new System.Drawing.Point(240, 10);
             this.fileExtensionsCbx.Name = "fileExtensionsCbx";
             this.fileExtensionsCbx.Size = new System.Drawing.Size(95, 17);
-            this.fileExtensionsCbx.TabIndex = 7;
-            this.fileExtensionsCbx.Text = "File extensions";
+            this.fileExtensionsCbx.TabIndex = 3;
+            this.fileExtensionsCbx.Text = "File &extensions";
             this.fileExtensionsCbx.UseVisualStyleBackColor = true;
             // 
             // useRegexCbx
@@ -153,11 +157,11 @@
             this.useRegexCbx.AutoSize = true;
             this.useRegexCbx.Checked = true;
             this.useRegexCbx.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.useRegexCbx.Location = new System.Drawing.Point(177, 8);
+            this.useRegexCbx.Location = new System.Drawing.Point(177, 10);
             this.useRegexCbx.Name = "useRegexCbx";
             this.useRegexCbx.Size = new System.Drawing.Size(57, 17);
-            this.useRegexCbx.TabIndex = 6;
-            this.useRegexCbx.Text = "Regex";
+            this.useRegexCbx.TabIndex = 2;
+            this.useRegexCbx.Text = "Rege&x";
             this.useRegexCbx.UseVisualStyleBackColor = true;
             // 
             // caseSensitiveCbx
@@ -166,36 +170,39 @@
             this.caseSensitiveCbx.AutoSize = true;
             this.caseSensitiveCbx.Checked = true;
             this.caseSensitiveCbx.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.caseSensitiveCbx.Location = new System.Drawing.Point(77, 8);
+            this.caseSensitiveCbx.Location = new System.Drawing.Point(77, 10);
             this.caseSensitiveCbx.Name = "caseSensitiveCbx";
             this.caseSensitiveCbx.Size = new System.Drawing.Size(94, 17);
-            this.caseSensitiveCbx.TabIndex = 5;
-            this.caseSensitiveCbx.Text = "Case sensitive";
+            this.caseSensitiveCbx.TabIndex = 1;
+            this.caseSensitiveCbx.Text = "&Case sensitive";
             this.caseSensitiveCbx.UseVisualStyleBackColor = true;
             // 
             // findLbl
             // 
             this.findLbl.AutoSize = true;
             this.findLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.findLbl.Location = new System.Drawing.Point(6, 9);
+            this.findLbl.Location = new System.Drawing.Point(3, 11);
+            this.findLbl.Margin = new System.Windows.Forms.Padding(0);
             this.findLbl.Name = "findLbl";
             this.findLbl.Size = new System.Drawing.Size(35, 13);
-            this.findLbl.TabIndex = 3;
+            this.findLbl.TabIndex = 4;
             this.findLbl.Text = "Find:";
+            this.findLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // findPatternTbx
             // 
             this.findPatternTbx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.findPatternTbx.Location = new System.Drawing.Point(6, 32);
+            this.findPatternTbx.Location = new System.Drawing.Point(6, 35);
+            this.findPatternTbx.Margin = new System.Windows.Forms.Padding(6, 0, 3, 6);
             this.findPatternTbx.Name = "findPatternTbx";
-            this.findPatternTbx.Size = new System.Drawing.Size(329, 20);
+            this.findPatternTbx.Size = new System.Drawing.Size(332, 20);
             this.findPatternTbx.TabIndex = 0;
             // 
             // replacePnl
             // 
+            this.replacePnl.AutoSize = true;
             this.replacePnl.Controls.Add(this.replaceLbl);
-            this.replacePnl.Controls.Add(this.replacePatternTbx);
             this.replacePnl.Controls.Add(this.addFilesBtn);
             this.replacePnl.Controls.Add(this.renameBtn);
             this.replacePnl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -203,27 +210,30 @@
             this.replacePnl.Margin = new System.Windows.Forms.Padding(0);
             this.replacePnl.Name = "replacePnl";
             this.replacePnl.Padding = new System.Windows.Forms.Padding(3);
-            this.replacePnl.Size = new System.Drawing.Size(342, 60);
+            this.replacePnl.Size = new System.Drawing.Size(342, 35);
             this.replacePnl.TabIndex = 5;
             // 
             // replaceLbl
             // 
             this.replaceLbl.AutoSize = true;
             this.replaceLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.replaceLbl.Location = new System.Drawing.Point(6, 9);
+            this.replaceLbl.Location = new System.Drawing.Point(3, 11);
+            this.replaceLbl.Margin = new System.Windows.Forms.Padding(0);
             this.replaceLbl.Name = "replaceLbl";
             this.replaceLbl.Size = new System.Drawing.Size(85, 13);
-            this.replaceLbl.TabIndex = 8;
+            this.replaceLbl.TabIndex = 2;
             this.replaceLbl.Text = "Replace with:";
+            this.replaceLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // replacePatternTbx
             // 
             this.replacePatternTbx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.replacePatternTbx.Location = new System.Drawing.Point(6, 32);
+            this.replacePatternTbx.Location = new System.Drawing.Point(347, 35);
+            this.replacePatternTbx.Margin = new System.Windows.Forms.Padding(6, 0, 6, 6);
             this.replacePatternTbx.Name = "replacePatternTbx";
             this.replacePatternTbx.Size = new System.Drawing.Size(330, 20);
-            this.replacePatternTbx.TabIndex = 7;
+            this.replacePatternTbx.TabIndex = 1;
             // 
             // addFilesBtn
             // 
@@ -231,8 +241,8 @@
             this.addFilesBtn.Location = new System.Drawing.Point(163, 6);
             this.addFilesBtn.Name = "addFilesBtn";
             this.addFilesBtn.Size = new System.Drawing.Size(75, 23);
-            this.addFilesBtn.TabIndex = 6;
-            this.addFilesBtn.Text = "AddFiles";
+            this.addFilesBtn.TabIndex = 0;
+            this.addFilesBtn.Text = "&AddFiles";
             this.addFilesBtn.UseVisualStyleBackColor = true;
             this.addFilesBtn.Click += new System.EventHandler(this.openFolderBtn_Click);
             // 
@@ -243,7 +253,7 @@
             this.renameBtn.Name = "renameBtn";
             this.renameBtn.Size = new System.Drawing.Size(92, 23);
             this.renameBtn.TabIndex = 1;
-            this.renameBtn.Text = "Rename files";
+            this.renameBtn.Text = "&Rename files";
             this.renameBtn.UseVisualStyleBackColor = true;
             this.renameBtn.Click += new System.EventHandler(this.renameBtn_Click);
             // 
@@ -253,21 +263,21 @@
             this.statusbarStStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileCountStLbl,
             this.selectedCountTsLbl});
-            this.statusbarStStrip.Location = new System.Drawing.Point(0, 433);
+            this.statusbarStStrip.Location = new System.Drawing.Point(0, 431);
             this.statusbarStStrip.Name = "statusbarStStrip";
-            this.statusbarStStrip.Size = new System.Drawing.Size(683, 20);
-            this.statusbarStStrip.TabIndex = 9;
+            this.statusbarStStrip.Size = new System.Drawing.Size(683, 22);
+            this.statusbarStStrip.TabIndex = 3;
             // 
             // fileCountStLbl
             // 
             this.fileCountStLbl.Name = "fileCountStLbl";
-            this.fileCountStLbl.Size = new System.Drawing.Size(42, 15);
+            this.fileCountStLbl.Size = new System.Drawing.Size(42, 17);
             this.fileCountStLbl.Text = "Files: 0";
             // 
             // selectedCountTsLbl
             // 
             this.selectedCountTsLbl.Name = "selectedCountTsLbl";
-            this.selectedCountTsLbl.Size = new System.Drawing.Size(63, 15);
+            this.selectedCountTsLbl.Size = new System.Drawing.Size(63, 17);
             this.selectedCountTsLbl.Text = "Selected: 0";
             // 
             // addFilesOfs

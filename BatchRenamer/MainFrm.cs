@@ -22,15 +22,17 @@ namespace BatchRenamer
             newFilenamesDgv.RowsAdded += (s, e) => UpdateFilesCount();
             newFilenamesDgv.RowsRemoved += (s, e) => UpdateFilesCount();
             newFilenamesDgv.SelectionChanged += (s, e) => UpdateSelectedCount();
-
-            newFilenamesDgv.CellFormatting += NewFilenamesDgv_CellFormatting;
+            newFilenamesDgv.CellFormatting += (s, e) =>
+            {
+                e.Value = GetFilename(e.ColumnIndex, e.RowIndex);
+                e.FormattingApplied = true;
+            };
             newFilenamesDgv.AutoGenerateColumns = false;
             newFilenamesDgv.DataSource = renamer.FileNames;
 
             caseSensitiveCbx.DataBindings.Add(nameof(caseSensitiveCbx.Checked), renamer, nameof(renamer.IsCaseSensitive), false, DataSourceUpdateMode.OnPropertyChanged);
             useRegexCbx.DataBindings.Add(nameof(useRegexCbx.Checked), renamer, nameof(renamer.UseRegex), false, DataSourceUpdateMode.OnPropertyChanged);
             fileExtensionsCbx.DataBindings.Add(nameof(fileExtensionsCbx.Checked), renamer, nameof(renamer.ShowExtensions), false, DataSourceUpdateMode.OnPropertyChanged);
-
             findPatternTbx.DataBindings.Add(nameof(findPatternTbx.Text), renamer, nameof(renamer.FindString), false, DataSourceUpdateMode.OnPropertyChanged);
             replacePatternTbx.DataBindings.Add(nameof(replacePatternTbx.Text), renamer, nameof(renamer.ReplaceString), false, DataSourceUpdateMode.OnPropertyChanged);
 
@@ -41,18 +43,14 @@ namespace BatchRenamer
         private void UpdateFilesCount() => fileCountStLbl.Text = $"Files: {newFilenamesDgv.RowCount}";
         private void UpdateSelectedCount() => selectedCountTsLbl.Text = $"Selected: {newFilenamesDgv.SelectedRows.Count}";
 
-        private void NewFilenamesDgv_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private string GetFilename(int column, int row)
         {
-            if (e.ColumnIndex == 0)
-            {
-                e.Value = renamer.GetFileName(renamer.FileNames[e.RowIndex]);
-                e.FormattingApplied = true;
-            }
-            else if (e.ColumnIndex == 1)
-            {
-                e.Value = renamer.GetReplacedName(renamer.FileNames[e.RowIndex]);
-                e.FormattingApplied = true;
-            }
+            if (column == 0)
+                return renamer.GetFileName(renamer.FileNames[row]);
+            else if (column == 1)
+                return renamer.GetReplacedName(renamer.FileNames[row]);
+            else
+                throw new Exception($"Unknown column no {column}");
         }
 
         private void newFilenamesDgv_DragDrop(object sender, DragEventArgs e)
