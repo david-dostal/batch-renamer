@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace BatchRenamer
@@ -69,19 +70,22 @@ namespace BatchRenamer
         {
             for (int i = 0; i < FileNames.Count; i++)
             {
-                string oldFile = FileNames[i];
-                string newName = GetReplacedName(oldFile);
-                if (!ShowExtensions) newName += Path.GetExtension(oldFile);
-                string newFile = Path.Combine(Path.GetDirectoryName(oldFile), newName);
-                if (File.Exists(oldFile) && !File.Exists(newFile))
+                string oldPath = FileNames[i];
+                string newPath = GetReplacedPath(oldPath);
+                if (File.Exists(oldPath) && !File.Exists(newPath))
                 {
-                    File.Move(oldFile, newFile);
-                    FileNames[i] = newFile;
+                    File.Move(oldPath, newPath);
+                    FileNames[i] = newPath;
                 }
 
             }
             OnFileNamesUpdated();
         }
+
+        public bool FileNamesValid()
+            => !FileNames.Select(f => GetReplacedName(f)).Any(f => FileUtils.IsInvalidFileName(f));
+
+        public bool FileNameValid(string fileName) => FileUtils.IsInvalidFileName(fileName);
 
         public string GetFileName(string path) =>
             ShowExtensions ? Path.GetFileName(path) : Path.GetFileNameWithoutExtension(path);
@@ -95,9 +99,28 @@ namespace BatchRenamer
             return Regex.Unescape(Regex.Replace(fileName, findRegex, replaceRegex, options));
         }
 
-        public void OnFileNamesUpdated()
+        public bool HasDuplicates()
+            => FileNames.Select(f => GetReplacedPath(f)).GroupBy(f => f).Any(f => f.Count() > 1);
+
+        public bool IsDuplicate(int index)
         {
-            FileNamesUpdated?.Invoke(this, new EventArgs());
+            for (int i = 0; i < FileNames.Count; i++)
+                if (i != index && GetReplacedPath(FileNames[i]) == GetReplacedPath(FileNames[index]))
+                    return true;
+            return false;
         }
+
+        private string GetReplacedPath(string path)
+        {
+            string fileName = GetFileName(path);
+            string filePath = Path.GetDirectoryName(path);
+            string newFileName = GetReplacedName(fileName);
+            if (!ShowExtensions) newFileName += Path.GetExtension(path);
+            string newPath = Path.Combine(filePath, newFileName);
+            return newPath;
+        }
+
+        public void OnFileNamesUpdated()
+            => FileNamesUpdated?.Invoke(this, new EventArgs());
     }
 }

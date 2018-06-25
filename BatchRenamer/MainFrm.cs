@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -18,7 +19,12 @@ namespace BatchRenamer
             newFilenamesDgv.SelectionChanged += (s, e) => UpdateSelectedCount();
             newFilenamesDgv.CellFormatting += (s, e) =>
             {
-                e.Value = GetFilename(e.ColumnIndex, e.RowIndex);
+                string fileName = GetFilename(e.ColumnIndex, e.RowIndex);
+                bool isInvalid = renamer.FileNameValid(fileName);
+                bool isDuplicate = renamer.IsDuplicate(e.RowIndex);
+                e.CellStyle.ForeColor = isInvalid ? Color.Firebrick : isDuplicate ? Color.DarkBlue : Color.Black;
+                e.CellStyle.SelectionForeColor = isInvalid ? Color.Firebrick : isDuplicate ? Color.DarkBlue : Color.Black;
+                e.Value = fileName;
                 e.FormattingApplied = true;
             };
             newFilenamesDgv.AutoGenerateColumns = false;
@@ -53,7 +59,18 @@ namespace BatchRenamer
                 e.ToolTipText = renamer.FileNames[e.RowIndex];
         }
 
-        private void renameBtn_Click(object sender, EventArgs e) => renamer.RenameFiles();
+        private void renameBtn_Click(object sender, EventArgs e)
+        {
+            if (renamer.FileNamesValid())
+            {
+                if (renamer.HasDuplicates())
+                    MessageBox.Show($"The new filenames contain duplicates.{Environment.NewLine}(highlighted in blue)", "Duplicate filenames");
+                else
+                    renamer.RenameFiles();
+            }
+            else
+                MessageBox.Show($"Some filenames contain invalid characters.{Environment.NewLine}(highlighted in red)", "Invalid filenames");
+        }
 
         private void newFilenamesDgv_DragEnter(object sender, DragEventArgs e)
         {

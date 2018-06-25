@@ -33,20 +33,20 @@
             this.newFilenamesDgv = new System.Windows.Forms.DataGridView();
             this.oldName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.newName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.replacePatternTbx = new System.Windows.Forms.TextBox();
             this.findPnl = new System.Windows.Forms.Panel();
             this.fileExtensionsCbx = new System.Windows.Forms.CheckBox();
             this.useRegexCbx = new System.Windows.Forms.CheckBox();
             this.caseSensitiveCbx = new System.Windows.Forms.CheckBox();
             this.findLbl = new System.Windows.Forms.Label();
-            this.findPatternTbx = new System.Windows.Forms.TextBox();
             this.replacePnl = new System.Windows.Forms.Panel();
             this.replaceLbl = new System.Windows.Forms.Label();
-            this.replacePatternTbx = new System.Windows.Forms.TextBox();
             this.addFilesBtn = new System.Windows.Forms.Button();
             this.renameBtn = new System.Windows.Forms.Button();
             this.statusbarStStrip = new System.Windows.Forms.StatusStrip();
             this.fileCountStLbl = new System.Windows.Forms.ToolStripStatusLabel();
             this.selectedCountTsLbl = new System.Windows.Forms.ToolStripStatusLabel();
+            this.findPatternTbx = new System.Windows.Forms.TextBox();
             this.addFilesOfs = new System.Windows.Forms.OpenFileDialog();
             this.layoutTlp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.newFilenamesDgv)).BeginInit();
@@ -126,6 +126,16 @@
             this.newName.Name = "newName";
             this.newName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             // 
+            // replacePatternTbx
+            // 
+            this.replacePatternTbx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.replacePatternTbx.Location = new System.Drawing.Point(347, 35);
+            this.replacePatternTbx.Margin = new System.Windows.Forms.Padding(6, 0, 6, 6);
+            this.replacePatternTbx.Name = "replacePatternTbx";
+            this.replacePatternTbx.Size = new System.Drawing.Size(330, 20);
+            this.replacePatternTbx.TabIndex = 1;
+            // 
             // findPnl
             // 
             this.findPnl.AutoSize = true;
@@ -190,16 +200,6 @@
             this.findLbl.Text = "Find:";
             this.findLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // findPatternTbx
-            // 
-            this.findPatternTbx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.findPatternTbx.Location = new System.Drawing.Point(6, 35);
-            this.findPatternTbx.Margin = new System.Windows.Forms.Padding(6, 0, 3, 6);
-            this.findPatternTbx.Name = "findPatternTbx";
-            this.findPatternTbx.Size = new System.Drawing.Size(332, 20);
-            this.findPatternTbx.TabIndex = 0;
-            // 
             // replacePnl
             // 
             this.replacePnl.AutoSize = true;
@@ -225,16 +225,6 @@
             this.replaceLbl.TabIndex = 2;
             this.replaceLbl.Text = "Replace with:";
             this.replaceLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // replacePatternTbx
-            // 
-            this.replacePatternTbx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.replacePatternTbx.Location = new System.Drawing.Point(347, 35);
-            this.replacePatternTbx.Margin = new System.Windows.Forms.Padding(6, 0, 6, 6);
-            this.replacePatternTbx.Name = "replacePatternTbx";
-            this.replacePatternTbx.Size = new System.Drawing.Size(330, 20);
-            this.replacePatternTbx.TabIndex = 1;
             // 
             // addFilesBtn
             // 
@@ -280,6 +270,16 @@
             this.selectedCountTsLbl.Name = "selectedCountTsLbl";
             this.selectedCountTsLbl.Size = new System.Drawing.Size(63, 17);
             this.selectedCountTsLbl.Text = "Selected: 0";
+            // 
+            // findPatternTbx
+            // 
+            this.findPatternTbx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.findPatternTbx.Location = new System.Drawing.Point(6, 35);
+            this.findPatternTbx.Margin = new System.Windows.Forms.Padding(6, 0, 3, 6);
+            this.findPatternTbx.Name = "findPatternTbx";
+            this.findPatternTbx.Size = new System.Drawing.Size(332, 20);
+            this.findPatternTbx.TabIndex = 0;
             // 
             // addFilesOfs
             // 

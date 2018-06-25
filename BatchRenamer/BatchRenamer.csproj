@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileRenamer.cs" />
+    <Compile Include="FileUtils.cs" />
     <Compile Include="MainFrm.cs">
       <SubType>Form</SubType>
     </Compile>
