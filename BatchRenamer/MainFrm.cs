@@ -90,7 +90,21 @@ namespace BatchRenamer
                 AddFiles(addFilesOfs.FileNames);
         }
 
-        private void AddFiles(IEnumerable<string> fileNames) =>
-            renamer.AddFiles(fileNames.Where((name) => File.Exists(name)));
+        private void AddFiles(IEnumerable<string> fileNames)
+        {
+            List<string> files = new List<string>();
+            foreach (string fileName in fileNames)
+            {
+                if (File.Exists(fileName))
+                    files.Add(fileName);
+                else if (Directory.Exists(fileName))
+                    foreach (string file in Directory.EnumerateFiles(fileName))
+                    {
+                        if (File.Exists(file))
+                            files.Add(file);
+                    }
+            }
+            renamer.AddFiles(files);
+        }
     }
 }
