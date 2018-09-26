@@ -17,16 +17,7 @@ namespace BatchRenamer
             newFilenamesDgv.RowsAdded += (s, e) => UpdateFilesCount();
             newFilenamesDgv.RowsRemoved += (s, e) => UpdateFilesCount();
             newFilenamesDgv.SelectionChanged += (s, e) => UpdateSelectedCount();
-            newFilenamesDgv.CellFormatting += (s, e) =>
-            {
-                string fileName = GetFilename(e.ColumnIndex, e.RowIndex);
-                bool isInvalid = renamer.FileNameValid(fileName);
-                bool isDuplicate = renamer.IsDuplicate(e.RowIndex);
-                e.CellStyle.ForeColor = isInvalid ? Color.Firebrick : isDuplicate ? Color.DarkBlue : Color.Black;
-                e.CellStyle.SelectionForeColor = isInvalid ? Color.Firebrick : isDuplicate ? Color.DarkBlue : Color.Black;
-                e.Value = fileName;
-                e.FormattingApplied = true;
-            };
+            newFilenamesDgv.CellFormatting += (s, e) => FormatCell(e);
             newFilenamesDgv.AutoGenerateColumns = false;
             newFilenamesDgv.DataSource = renamer.FileNames;
 
@@ -39,18 +30,26 @@ namespace BatchRenamer
             renamer.FileNamesUpdated += (s, e) => UpdateFileNames();
         }
 
+        private void FormatCell(DataGridViewCellFormattingEventArgs e)
+        {
+            string fileName = GetFilename(e.ColumnIndex, e.RowIndex);
+            bool isInvalid = renamer.FileNameValid(fileName);
+            bool isDuplicate = renamer.IsDuplicate(e.RowIndex);
+            e.CellStyle.ForeColor = isInvalid ? Color.Firebrick : isDuplicate ? Color.DarkBlue : Color.Black;
+            e.CellStyle.SelectionForeColor = isInvalid ? Color.Firebrick : isDuplicate ? Color.DarkBlue : Color.Black;
+            e.Value = fileName;
+            e.FormattingApplied = true;
+        }
+
         private void UpdateFileNames() => newFilenamesDgv.Refresh();
         private void UpdateFilesCount() => fileCountStLbl.Text = $"Files: {newFilenamesDgv.RowCount}";
         private void UpdateSelectedCount() => selectedCountTsLbl.Text = $"Selected: {newFilenamesDgv.SelectedRows.Count}";
 
         private string GetFilename(int column, int row)
         {
-            if (column == 0)
-                return renamer.GetFileName(renamer.FileNames[row]);
-            else if (column == 1)
-                return renamer.GetReplacedName(renamer.FileNames[row]);
-            else
-                throw new Exception($"Unknown column no {column}");
+            if (column == 0) return renamer.GetFileName(renamer.FileNames[row]);
+            else if (column == 1) return renamer.GetReplacedName(renamer.FileNames[row]);
+            else throw new Exception($"Unknown column no {column}");
         }
 
         private void newFilenamesDgv_CellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)

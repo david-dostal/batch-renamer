@@ -112,7 +112,7 @@ namespace BatchRenamer
 
         private string GetReplacedPath(string path)
         {
-            string fileName = GetFileName(path);
+            string fileName = Path.GetFileName(path);
             string filePath = Path.GetDirectoryName(path);
             string newFileName = GetReplacedName(fileName);
             if (!ShowExtensions) newFileName += Path.GetExtension(path);
