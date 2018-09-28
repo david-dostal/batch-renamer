@@ -1,4 +1,4 @@
-namespace BatchRenamer
+namespace Renaming
 module FileRenamer =
     open System.Text.RegularExpressions
     open System.IO

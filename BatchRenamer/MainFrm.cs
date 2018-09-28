@@ -9,7 +9,7 @@ namespace BatchRenamer
 {
     public partial class MainFrm : Form
     {
-        private FileRenamer renamer = new FileRenamer();
+        //private FileRenamer renamer = new FileRenamer();
 
         public MainFrm()
         {

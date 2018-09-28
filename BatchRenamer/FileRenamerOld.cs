@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace BatchRenamer
 {
-    public class FileRenamer
+    public class FileRenamerOld
     {
         public event EventHandler<EventArgs> FileNamesUpdated;
         public BindingList<string> FileNames { get; set; } = new BindingList<string>();
@@ -47,7 +47,7 @@ namespace BatchRenamer
             set { _showExtensions = value; OnFileNamesUpdated(); }
         }
 
-        public FileRenamer()
+        public FileRenamerOld()
         {
             FileNames.AllowEdit = false;
         }
