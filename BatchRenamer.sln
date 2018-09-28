@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BatchRenamer", "BatchRenamer\BatchRenamer.csproj", "{11FDAA17-E113-4327-9E00-E399F110937F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface", "BatchRenamer\UserInterface.csproj", "{11FDAA17-E113-4327-9E00-E399F110937F}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Renaming", "Renaming\Renaming.fsproj", "{09F0A2C1-2B6A-4B77-9793-4749AE92E117}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{11FDAA17-E113-4327-9E00-E399F110937F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11FDAA17-E113-4327-9E00-E399F110937F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11FDAA17-E113-4327-9E00-E399F110937F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09F0A2C1-2B6A-4B77-9793-4749AE92E117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09F0A2C1-2B6A-4B77-9793-4749AE92E117}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09F0A2C1-2B6A-4B77-9793-4749AE92E117}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09F0A2C1-2B6A-4B77-9793-4749AE92E117}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
