@@ -233,7 +233,7 @@
             this.addFilesBtn.Name = "addFilesBtn";
             this.addFilesBtn.Size = new System.Drawing.Size(75, 23);
             this.addFilesBtn.TabIndex = 0;
-            this.addFilesBtn.Text = "&AddFiles";
+            this.addFilesBtn.Text = "&Add Files";
             this.addFilesBtn.UseVisualStyleBackColor = true;
             this.addFilesBtn.Click += new System.EventHandler(this.openFolderBtn_Click);
             // 
