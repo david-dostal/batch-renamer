@@ -34,13 +34,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FSharp.Core, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileRenamer.cs" />
     <Compile Include="FileRenamerOld.cs" />
+    <Compile Include="MainFrmOld.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainFrmOld.Designer.cs">
+      <DependentUpon>MainFrmOld.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -49,7 +57,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReplaceOptions.cs" />
     <Compile Include="RenamerViewModel.cs" />
+    <Compile Include="ValidationResult.cs" />
+    <EmbeddedResource Include="MainFrmOld.resx">
+      <DependentUpon>MainFrmOld.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainFrm.resx">
       <DependentUpon>MainFrm.cs</DependentUpon>
     </EmbeddedResource>
@@ -75,12 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Renaming\Renaming.fsproj">
-      <Project>{09f0a2c1-2b6a-4b77-9793-4749ae92e117}</Project>
-      <Name>Renaming</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

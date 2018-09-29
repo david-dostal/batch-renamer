@@ -3,21 +3,19 @@ module FileRenamer =
     open System.Text.RegularExpressions
     open System.IO
 
-    let stringReplace (findStr: string) (replaceStr: string) (ignoreCase: bool) (fileName: string) =
+    type ReplaceOptions = { Find: string; Replace: string; IgnoreCase: bool }
+    type Renamer = ReplaceOptions -> string -> string
+
+    let stringReplace { Find = findStr; Replace = replaceStr; IgnoreCase = ignoreCase } (fileName: string) =
         let findEscaped = Regex.Escape(findStr)
         let replaceEscaped = Regex.Escape(replaceStr)
         let regexOptions = if ignoreCase then RegexOptions.IgnoreCase else RegexOptions.None
         let replaced = Regex.Replace(fileName, findEscaped, replaceEscaped, regexOptions)
         Regex.Unescape(replaced)
 
-    let regexReplace (findRegex: string) (replaceRegex: string) (ignoreCase: bool) (fileName: string) =
+    let regexReplace { Find = findRegex; Replace = replaceRegex; IgnoreCase = ignoreCase } (fileName: string) =
         let regexOptions = if ignoreCase then RegexOptions.IgnoreCase else RegexOptions.None
         Regex.Replace(fileName, findRegex, replaceRegex, regexOptions)
-
-    let renamedName find replace ignoreCase regex file =
-        if regex
-        then regexReplace find replace ignoreCase file
-        else stringReplace find replace ignoreCase file
 
     type FileInfo = {Directory: string; Name: string; Extension: string}
     
@@ -26,12 +24,12 @@ module FileRenamer =
           Name = Path.GetFileNameWithoutExtension(path);
           Extension = Path.GetExtension(path) }
 
-    let renamedFile renamer renameExtension path =
+    let renamedFile renamer options renameExtension path =
         let file = fileInfo path
         let renamedFile =
             if renameExtension
-            then renamer (file.Name + file.Extension)
-            else (renamer file.Name) + file.Extension
+            then renamer options (file.Name + file.Extension)
+            else (renamer options file.Name) + file.Extension
         Path.Combine(file.Directory, renamedFile)
 
     let renamedFiles renamer files =

@@ -3,80 +3,85 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace BatchRenamer
 {
     public partial class MainFrm : Form
     {
-        //private FileRenamer renamer = new FileRenamer();
+        private RenamerViewModel renamer = new RenamerViewModel();
+        private DataGridViewCellStyle duplicateCellStyle;
+        private DataGridViewCellStyle invalidCellStyle;
+
+        private const int originalColumnIndex = 0;
+        private const int renamedColumnIndex = 1;
 
         public MainFrm()
         {
             InitializeComponent();
-            newFilenamesDgv.RowsAdded += (s, e) => UpdateFilesCount();
-            newFilenamesDgv.RowsRemoved += (s, e) => UpdateFilesCount();
-            newFilenamesDgv.SelectionChanged += (s, e) => UpdateSelectedCount();
-            newFilenamesDgv.CellFormatting += (s, e) => FormatCell(e);
-            newFilenamesDgv.AutoGenerateColumns = false;
             newFilenamesDgv.DataSource = renamer.FileNames;
-
-            caseSensitiveCbx.DataBindings.Add(nameof(caseSensitiveCbx.Checked), renamer, nameof(renamer.IsCaseSensitive), false, DataSourceUpdateMode.OnPropertyChanged);
-            useRegexCbx.DataBindings.Add(nameof(useRegexCbx.Checked), renamer, nameof(renamer.UseRegex), false, DataSourceUpdateMode.OnPropertyChanged);
-            fileExtensionsCbx.DataBindings.Add(nameof(fileExtensionsCbx.Checked), renamer, nameof(renamer.ShowExtensions), false, DataSourceUpdateMode.OnPropertyChanged);
-            findPatternTbx.DataBindings.Add(nameof(findPatternTbx.Text), renamer, nameof(renamer.FindString), false, DataSourceUpdateMode.OnPropertyChanged);
-            replacePatternTbx.DataBindings.Add(nameof(replacePatternTbx.Text), renamer, nameof(renamer.ReplaceString), false, DataSourceUpdateMode.OnPropertyChanged);
-
-            renamer.FileNamesUpdated += (s, e) => UpdateFileNames();
+            duplicateCellStyle = new DataGridViewCellStyle(newFilenamesDgv.DefaultCellStyle) { ForeColor = Color.DarkBlue, SelectionForeColor = Color.DarkBlue };
+            invalidCellStyle = new DataGridViewCellStyle(newFilenamesDgv.DefaultCellStyle) { ForeColor = Color.Firebrick, SelectionForeColor = Color.Firebrick };
         }
 
         private void FormatCell(DataGridViewCellFormattingEventArgs e)
         {
-            string fileName = GetFilename(e.ColumnIndex, e.RowIndex);
-            bool isInvalid = renamer.FileNameValid(fileName);
-            bool isDuplicate = renamer.IsDuplicate(e.RowIndex);
-            e.CellStyle.ForeColor = isInvalid ? Color.Firebrick : isDuplicate ? Color.DarkBlue : Color.Black;
-            e.CellStyle.SelectionForeColor = isInvalid ? Color.Firebrick : isDuplicate ? Color.DarkBlue : Color.Black;
-            e.Value = fileName;
+            e.Value =
+                e.ColumnIndex == originalColumnIndex ? renamer.DisplayName(e.RowIndex) :
+                e.ColumnIndex == renamedColumnIndex ? renamer.RenamedDisplayName(e.RowIndex) :
+                throw new ArgumentException($"Index {e.ColumnIndex} is not a valid column. This should never happen.");
+
+            ValidationResult valid = renamer.Validate(e.RowIndex);
+            if (valid.HasFlag(ValidationResult.InvalidFileName) || valid.HasFlag(ValidationResult.InvalidDirectoryName))
+                e.CellStyle = invalidCellStyle;
+            if (valid.HasFlag(ValidationResult.DuplicateFileName))
+                e.CellStyle = duplicateCellStyle;
+
             e.FormattingApplied = true;
-        }
-
-        private void UpdateFileNames() => newFilenamesDgv.Refresh();
-        private void UpdateFilesCount() => fileCountStLbl.Text = $"Files: {newFilenamesDgv.RowCount}";
-        private void UpdateSelectedCount() => selectedCountTsLbl.Text = $"Selected: {newFilenamesDgv.SelectedRows.Count}";
-
-        private string GetFilename(int column, int row)
-        {
-            if (column == 0) return renamer.GetFileName(renamer.FileNames[row]);
-            else if (column == 1) return renamer.GetReplacedName(renamer.FileNames[row]);
-            else throw new Exception($"Unknown column no {column}");
         }
 
         private void newFilenamesDgv_CellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
         {
-            if (e.RowIndex != -1)
-                e.ToolTipText = renamer.FileNames[e.RowIndex];
+            if (e.RowIndex == -1) return;
+            e.ToolTipText = renamer.OriginalPath(e.RowIndex);
         }
 
         private void renameBtn_Click(object sender, EventArgs e)
         {
-            if (renamer.FileNamesValid())
+            ValidationResult valid = renamer.ValidateAll();
+            if (valid != ValidationResult.ProbablyValid)
             {
-                if (renamer.HasDuplicates())
-                    MessageBox.Show($"The new filenames contain duplicates.{Environment.NewLine}(highlighted in blue)", "Duplicate filenames");
-                else
-                    renamer.RenameFiles();
+                StringBuilder builder = new StringBuilder();
+                if (valid.HasFlag(ValidationResult.DuplicateFileName))
+                    builder.AppendLine($"The new filenames contain duplicates (highlighted in blue).");
+                if (valid.HasFlag(ValidationResult.InvalidFileName))
+                    builder.AppendLine($"Some filenames contain invalid characters (highlighted in red).");
+                if (valid.HasFlag(ValidationResult.InvalidDirectoryName))
+                    builder.AppendLine($"Some directory names contain invalid characters (highlighted in red).");
+
+                MessageBox.Show(builder.ToString(), "Cannot rename");
             }
+            else if (renamer.RenamedNames.Any(File.Exists))
+                MessageBox.Show("Cannot rename, because files with same name already exist.", "Cannot rename");
             else
-                MessageBox.Show($"Some filenames contain invalid characters.{Environment.NewLine}(highlighted in red)", "Invalid filenames");
+            {
+                try
+                {
+                    renamer.RenameAll();
+                }
+                catch(Exception ex) // TODO: don't catch generic exception
+                {
+                    MessageBox.Show(ex.Message, "Error while renaming");
+                }
+            }
         }
 
         private void newFilenamesDgv_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.All;
-            else
-                e.Effect = DragDropEffects.None;
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ?
+                DragDropEffects.All :
+                DragDropEffects.None;
         }
 
         private void newFilenamesDgv_DragDrop(object sender, DragEventArgs e) =>
@@ -96,12 +101,13 @@ namespace BatchRenamer
             {
                 if (File.Exists(fileName))
                     files.Add(fileName);
+
                 else if (Directory.Exists(fileName))
-                    foreach (string file in Directory.EnumerateFiles(fileName))
-                    {
-                        if (File.Exists(file))
-                            files.Add(file);
-                    }
+                    Directory.EnumerateFiles(fileName)
+                        .Where(f => File.Exists(f)).ToList()
+                        .ForEach(f => files.Add(f));
+
+                // else we ignore nonexistent path
             }
             renamer.AddFiles(files);
         }

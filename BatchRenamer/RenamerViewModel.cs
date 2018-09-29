@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Renaming.FileRenamer;
 
 namespace BatchRenamer
 {
@@ -14,6 +11,7 @@ namespace BatchRenamer
         public event EventHandler<EventArgs> RenamedNamesChanged;
 
         public BindingList<string> FileNames { get; protected set; }
+        public IEnumerable<string> RenamedNames => FileNames.Select(RenamedPath);
 
         public bool UseRegex { get; set; }
         public bool ShowExtensions { get; set; }
@@ -48,19 +46,44 @@ namespace BatchRenamer
 
         }
 
-        public string GetDisplayName(string path)
+        public string OriginalPath(int index) => FileNames[index];
+
+        public string RenamedPath(int index) => RenamedPath(OriginalPath(index));
+        private string RenamedPath(string path)
         {
-            throw new NotImplementedException();
+            FileRenamer.Renamer renamer = UseRegex ? (FileRenamer.Renamer)FileRenamer.RegexReplace : FileRenamer.StringReplace;
+            ReplaceOptions options = new ReplaceOptions(FindString, ReplaceString, IgnoreCase);
+            return FileRenamer.RenameFile(path, options, renamer, ShowExtensions);
         }
 
-        public string GetRenamedName(string path)
+        public string DisplayName(int index)
         {
-            throw new NotImplementedException();
+            string path = FileNames[index];
+            return FileRenamer.DisplayName(path, ShowExtensions);
         }
 
-        public ValidationResult GetValidationResult(string path)
+        public string RenamedDisplayName(int index)
         {
-            throw new NotImplementedException();
+            string path = FileNames[index];
+            return FileRenamer.DisplayName(RenamedPath(path), ShowExtensions);
+        }
+
+        public ValidationResult Validate(int index) => Validate(RenamedPath(FileNames[index]));
+        private ValidationResult Validate(string path)
+        {
+            if (FileRenamer.IsInvalidPath(path)) return ValidationResult.InvalidDirectoryName;
+            if (FileRenamer.IsInvalidFileName(path)) return ValidationResult.InvalidFileName;
+            if (RenamedNames.Contains(path)) return ValidationResult.DuplicateFileName;
+
+            return ValidationResult.ProbablyValid;
+        }
+
+        public ValidationResult ValidateAll()
+        {
+            return RenamedNames
+                .Select(Validate)
+                .Aggregate(ValidationResult.ProbablyValid,
+                    (result, curent) => result | curent);
         }
 
         public void OnDisplayNamesChanged() => DisplayNamesChanged?.Invoke(this, EventArgs.Empty);
