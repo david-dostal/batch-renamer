@@ -13,12 +13,12 @@ namespace BatchRenamer
         public BindingList<string> FileNames { get; protected set; }
         public IEnumerable<string> RenamedNames => FileNames.Select(RenamedPath);
 
-        public bool UseRegex { get; set; }
-        public bool ShowExtensions { get; set; }
-        public bool IgnoreCase { get; set; }
+        public bool UseRegex { get; set; } = false;
+        public bool ShowExtensions { get; set; } = false;
+        public bool IgnoreCase { get; set; } = false;
 
-        public string FindString { get; set; }
-        public string ReplaceString { get; set; }
+        public string FindString { get; set; } = "";
+        public string ReplaceString { get; set; } = "";
 
         public int FileCount => FileNames.Count;
 
@@ -43,7 +43,11 @@ namespace BatchRenamer
 
         public void AddFiles(IEnumerable<string> fileNames)
         {
-
+            FileNames.RaiseListChangedEvents = false;
+            foreach(string path in fileNames)
+                FileNames.Add(path);
+            FileNames.RaiseListChangedEvents = true;
+            FileNames.ResetBindings();
         }
 
         public string OriginalPath(int index) => FileNames[index];

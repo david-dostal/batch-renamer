@@ -20,7 +20,10 @@ namespace BatchRenamer
         public MainFrm()
         {
             InitializeComponent();
+            newFilenamesDgv.CellFormatting += (s, e) => FormatCell(e);
+            newFilenamesDgv.AutoGenerateColumns = false;
             newFilenamesDgv.DataSource = renamer.FileNames;
+
             duplicateCellStyle = new DataGridViewCellStyle(newFilenamesDgv.DefaultCellStyle) { ForeColor = Color.DarkBlue, SelectionForeColor = Color.DarkBlue };
             invalidCellStyle = new DataGridViewCellStyle(newFilenamesDgv.DefaultCellStyle) { ForeColor = Color.Firebrick, SelectionForeColor = Color.Firebrick };
         }
