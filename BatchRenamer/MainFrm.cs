@@ -11,6 +11,8 @@ namespace BatchRenamer
     public partial class MainFrm : Form
     {
         private RenamerViewModel renamer = new RenamerViewModel();
+
+        private DataGridViewCellStyle normalCellStyle;
         private DataGridViewCellStyle duplicateCellStyle;
         private DataGridViewCellStyle invalidCellStyle;
 
@@ -24,6 +26,7 @@ namespace BatchRenamer
             newFilenamesDgv.AutoGenerateColumns = false;
             newFilenamesDgv.DataSource = renamer.FileNames;
 
+            normalCellStyle = newFilenamesDgv.DefaultCellStyle;
             duplicateCellStyle = new DataGridViewCellStyle(newFilenamesDgv.DefaultCellStyle) { ForeColor = Color.DarkBlue, SelectionForeColor = Color.DarkBlue };
             invalidCellStyle = new DataGridViewCellStyle(newFilenamesDgv.DefaultCellStyle) { ForeColor = Color.Firebrick, SelectionForeColor = Color.Firebrick };
 
@@ -34,8 +37,7 @@ namespace BatchRenamer
             findPatternTbx.DataBindings.Add(nameof(findPatternTbx.Text), renamer, nameof(renamer.FindString), false, DataSourceUpdateMode.OnPropertyChanged);
             replacePatternTbx.DataBindings.Add(nameof(replacePatternTbx.Text), renamer, nameof(renamer.ReplaceString), false, DataSourceUpdateMode.OnPropertyChanged);
 
-            renamer.RenamedNamesChanged += (s, e) => newFilenamesDgv.Refresh(); // TODO: maybe find more efficient solution, redraw only needed column.
-            renamer.AllNamesChanged += (s, e) => newFilenamesDgv.Refresh();
+            renamer.FileNamesChanged += (s, e) => newFilenamesDgv.Refresh();
         }
 
         private void FormatCell(DataGridViewCellFormattingEventArgs e)
@@ -48,8 +50,10 @@ namespace BatchRenamer
             ValidationResult valid = renamer.Validate(e.RowIndex);
             if (valid.HasFlag(ValidationResult.InvalidFileName) || valid.HasFlag(ValidationResult.InvalidDirectoryName))
                 e.CellStyle = invalidCellStyle;
-            if (valid.HasFlag(ValidationResult.DuplicateFileName))
+            else if (valid.HasFlag(ValidationResult.DuplicateFileName))
                 e.CellStyle = duplicateCellStyle;
+            else
+                e.CellStyle = normalCellStyle;
 
             e.FormattingApplied = true;
         }

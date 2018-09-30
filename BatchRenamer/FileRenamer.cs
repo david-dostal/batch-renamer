@@ -44,8 +44,9 @@ namespace BatchRenamer
 
         public static bool IsInvalidFileName(string path)
         {
+            string fileName = Path.GetFileName(path);
             return Path.GetInvalidFileNameChars()
-                .Any(c => path.Contains(c));
+                .Any(c => fileName.Contains(c));
         }
 
         public static bool IsInvalidPath(string path)

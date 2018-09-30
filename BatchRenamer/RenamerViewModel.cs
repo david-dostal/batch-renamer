@@ -7,32 +7,30 @@ namespace BatchRenamer
 {
     public class RenamerViewModel
     {
-        public event EventHandler<EventArgs> AllNamesChanged;
-        public event EventHandler<EventArgs> RenamedNamesChanged;
+        public event EventHandler<EventArgs> FileNamesChanged;
 
-        public BindingList<string> FileNames { get; protected set; }
+        public BindingList<string> FileNames { get; protected set; } = new BindingList<string>();
         public IEnumerable<string> RenamedNames => FileNames.Select(RenamedPath);
 
         private bool useRegex = false;
-        public bool UseRegex { get => useRegex; set { useRegex = value; OnRenamedNamesChanged(); } }
+        public bool UseRegex { get => useRegex; set { useRegex = value; OnFileNamesChanged(); } }
 
         private bool showExtensions = false;
-        public bool ShowExtensions { get => showExtensions; set { showExtensions = value; OnAllNamesChanged(); } }
+        public bool ShowExtensions { get => showExtensions; set { showExtensions = value; OnFileNamesChanged(); } }
 
         private bool ignoreCase = false;
-        public bool IgnoreCase { get => ignoreCase; set { ignoreCase = value; OnRenamedNamesChanged(); } }
+        public bool IgnoreCase { get => ignoreCase; set { ignoreCase = value; OnFileNamesChanged(); } }
 
         private string findString = "";
-        public string FindString { get => findString; set { findString = value; OnRenamedNamesChanged(); } }
+        public string FindString { get => findString; set { findString = value; OnFileNamesChanged(); } }
 
         private string replaceString = "";
-        public string ReplaceString { get => replaceString; set { replaceString = value; OnRenamedNamesChanged(); } }
+        public string ReplaceString { get => replaceString; set { replaceString = value; OnFileNamesChanged(); } }
 
         public int FileCount => FileNames.Count;
 
         public RenamerViewModel()
         {
-            FileNames = new BindingList<string>();
             FileNames.AllowEdit = false;
         }
 
@@ -77,7 +75,7 @@ namespace BatchRenamer
         {
             if (FileRenamer.IsInvalidPath(path)) return ValidationResult.InvalidDirectoryName;
             if (FileRenamer.IsInvalidFileName(path)) return ValidationResult.InvalidFileName;
-            if (RenamedNames.Contains(path)) return ValidationResult.DuplicateFileName;
+            if (RenamedNames.Count(p => p == path) > 1) return ValidationResult.DuplicateFileName;
 
             return ValidationResult.ProbablyValid;
         }
@@ -90,7 +88,6 @@ namespace BatchRenamer
                     (result, curent) => result | curent);
         }
 
-        public void OnAllNamesChanged() => AllNamesChanged?.Invoke(this, EventArgs.Empty);
-        public void OnRenamedNamesChanged() => RenamedNamesChanged?.Invoke(this, EventArgs.Empty);
+        public void OnFileNamesChanged() => FileNamesChanged?.Invoke(this, EventArgs.Empty);
     }
 }
