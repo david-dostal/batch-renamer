@@ -7,18 +7,26 @@ namespace BatchRenamer
 {
     public class RenamerViewModel
     {
-        public event EventHandler<EventArgs> DisplayNamesChanged;
+        public event EventHandler<EventArgs> AllNamesChanged;
         public event EventHandler<EventArgs> RenamedNamesChanged;
 
         public BindingList<string> FileNames { get; protected set; }
         public IEnumerable<string> RenamedNames => FileNames.Select(RenamedPath);
 
-        public bool UseRegex { get; set; } = false;
-        public bool ShowExtensions { get; set; } = false;
-        public bool IgnoreCase { get; set; } = false;
+        private bool useRegex = false;
+        public bool UseRegex { get => useRegex; set { useRegex = value; OnRenamedNamesChanged(); } }
 
-        public string FindString { get; set; } = "";
-        public string ReplaceString { get; set; } = "";
+        private bool showExtensions = false;
+        public bool ShowExtensions { get => showExtensions; set { showExtensions = value; OnAllNamesChanged(); } }
+
+        private bool ignoreCase = false;
+        public bool IgnoreCase { get => ignoreCase; set { ignoreCase = value; OnRenamedNamesChanged(); } }
+
+        private string findString = "";
+        public string FindString { get => findString; set { findString = value; OnRenamedNamesChanged(); } }
+
+        private string replaceString = "";
+        public string ReplaceString { get => replaceString; set { replaceString = value; OnRenamedNamesChanged(); } }
 
         public int FileCount => FileNames.Count;
 
@@ -36,7 +44,7 @@ namespace BatchRenamer
         public void AddFiles(IEnumerable<string> fileNames)
         {
             FileNames.RaiseListChangedEvents = false;
-            foreach(string path in fileNames)
+            foreach (string path in fileNames)
                 FileNames.Add(path);
             FileNames.RaiseListChangedEvents = true;
             FileNames.ResetBindings();
@@ -82,7 +90,7 @@ namespace BatchRenamer
                     (result, curent) => result | curent);
         }
 
-        public void OnDisplayNamesChanged() => DisplayNamesChanged?.Invoke(this, EventArgs.Empty);
+        public void OnAllNamesChanged() => AllNamesChanged?.Invoke(this, EventArgs.Empty);
         public void OnRenamedNamesChanged() => RenamedNamesChanged?.Invoke(this, EventArgs.Empty);
     }
 }
