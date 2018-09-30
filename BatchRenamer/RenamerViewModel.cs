@@ -28,14 +28,6 @@ namespace BatchRenamer
             FileNames.AllowEdit = false;
         }
 
-        public bool CanRename()
-        {
-            throw new NotImplementedException();
-            // TODO:
-            // - check if all are valid
-            // - check if files don't already exist (if the name changed)
-        }
-
         public void RenameAll()
         {
 

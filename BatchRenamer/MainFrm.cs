@@ -26,6 +26,13 @@ namespace BatchRenamer
 
             duplicateCellStyle = new DataGridViewCellStyle(newFilenamesDgv.DefaultCellStyle) { ForeColor = Color.DarkBlue, SelectionForeColor = Color.DarkBlue };
             invalidCellStyle = new DataGridViewCellStyle(newFilenamesDgv.DefaultCellStyle) { ForeColor = Color.Firebrick, SelectionForeColor = Color.Firebrick };
+
+            ignoreCaseCbx.DataBindings.Add(nameof(ignoreCaseCbx.Checked), renamer, nameof(renamer.IgnoreCase));
+            useRegexCbx.DataBindings.Add(nameof(useRegexCbx.Checked), renamer, nameof(renamer.UseRegex));
+            fileExtensionsCbx.DataBindings.Add(nameof(fileExtensionsCbx.Checked), renamer, nameof(renamer.ShowExtensions));
+
+            findPatternTbx.DataBindings.Add(nameof(findPatternTbx.Text), renamer, nameof(renamer.FindString));
+            replacePatternTbx.DataBindings.Add(nameof(replacePatternTbx.Text), renamer, nameof(renamer.ReplaceString));
         }
 
         private void FormatCell(DataGridViewCellFormattingEventArgs e)
@@ -44,13 +51,13 @@ namespace BatchRenamer
             e.FormattingApplied = true;
         }
 
-        private void newFilenamesDgv_CellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
+        private void CellToolTipNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
         {
             if (e.RowIndex == -1) return;
             e.ToolTipText = renamer.OriginalPath(e.RowIndex);
         }
 
-        private void renameBtn_Click(object sender, EventArgs e)
+        private void RenameClick(object sender, EventArgs e)
         {
             ValidationResult valid = renamer.ValidateAll();
             if (valid != ValidationResult.ProbablyValid)
@@ -80,18 +87,18 @@ namespace BatchRenamer
             }
         }
 
-        private void newFilenamesDgv_DragEnter(object sender, DragEventArgs e)
+        private void OnDragOver(object sender, DragEventArgs e)
         {
             e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ?
                 DragDropEffects.All :
                 DragDropEffects.None;
         }
 
-        private void newFilenamesDgv_DragDrop(object sender, DragEventArgs e) =>
+        private void OnFileDrop(object sender, DragEventArgs e) =>
             AddFiles((string[])e.Data.GetData(DataFormats.FileDrop));
 
 
-        private void openFolderBtn_Click(object sender, EventArgs e)
+        private void OpenFolderClick(object sender, EventArgs e)
         {
             if (addFilesOfs.ShowDialog(this) == DialogResult.OK)
                 AddFiles(addFilesOfs.FileNames);

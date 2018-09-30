@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.layoutTlp = new System.Windows.Forms.TableLayoutPanel();
             this.newFilenamesDgv = new System.Windows.Forms.DataGridView();
             this.oldName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,7 +37,7 @@
             this.findPnl = new System.Windows.Forms.Panel();
             this.fileExtensionsCbx = new System.Windows.Forms.CheckBox();
             this.useRegexCbx = new System.Windows.Forms.CheckBox();
-            this.caseSensitiveCbx = new System.Windows.Forms.CheckBox();
+            this.ignoreCaseCbx = new System.Windows.Forms.CheckBox();
             this.findLbl = new System.Windows.Forms.Label();
             this.replacePnl = new System.Windows.Forms.Panel();
             this.replaceLbl = new System.Windows.Forms.Label();
@@ -93,14 +93,14 @@
             this.oldName,
             this.newName});
             this.layoutTlp.SetColumnSpan(this.newFilenamesDgv, 2);
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.AliceBlue;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.newFilenamesDgv.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.AliceBlue;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.newFilenamesDgv.DefaultCellStyle = dataGridViewCellStyle2;
             this.newFilenamesDgv.Dock = System.Windows.Forms.DockStyle.Fill;
             this.newFilenamesDgv.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.newFilenamesDgv.Location = new System.Drawing.Point(0, 61);
@@ -110,9 +110,9 @@
             this.newFilenamesDgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.newFilenamesDgv.Size = new System.Drawing.Size(683, 370);
             this.newFilenamesDgv.TabIndex = 2;
-            this.newFilenamesDgv.CellToolTipTextNeeded += new System.Windows.Forms.DataGridViewCellToolTipTextNeededEventHandler(this.newFilenamesDgv_CellToolTipTextNeeded);
-            this.newFilenamesDgv.DragDrop += new System.Windows.Forms.DragEventHandler(this.newFilenamesDgv_DragDrop);
-            this.newFilenamesDgv.DragEnter += new System.Windows.Forms.DragEventHandler(this.newFilenamesDgv_DragEnter);
+            this.newFilenamesDgv.CellToolTipTextNeeded += new System.Windows.Forms.DataGridViewCellToolTipTextNeededEventHandler(this.CellToolTipNeeded);
+            this.newFilenamesDgv.DragDrop += new System.Windows.Forms.DragEventHandler(this.OnFileDrop);
+            this.newFilenamesDgv.DragEnter += new System.Windows.Forms.DragEventHandler(this.OnDragOver);
             // 
             // oldName
             // 
@@ -141,7 +141,7 @@
             this.findPnl.AutoSize = true;
             this.findPnl.Controls.Add(this.fileExtensionsCbx);
             this.findPnl.Controls.Add(this.useRegexCbx);
-            this.findPnl.Controls.Add(this.caseSensitiveCbx);
+            this.findPnl.Controls.Add(this.ignoreCaseCbx);
             this.findPnl.Controls.Add(this.findLbl);
             this.findPnl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.findPnl.Location = new System.Drawing.Point(0, 0);
@@ -166,8 +166,6 @@
             // 
             this.useRegexCbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.useRegexCbx.AutoSize = true;
-            this.useRegexCbx.Checked = true;
-            this.useRegexCbx.CheckState = System.Windows.Forms.CheckState.Checked;
             this.useRegexCbx.Location = new System.Drawing.Point(177, 10);
             this.useRegexCbx.Name = "useRegexCbx";
             this.useRegexCbx.Size = new System.Drawing.Size(57, 17);
@@ -175,18 +173,16 @@
             this.useRegexCbx.Text = "Rege&x";
             this.useRegexCbx.UseVisualStyleBackColor = true;
             // 
-            // caseSensitiveCbx
+            // ignoreCaseCbx
             // 
-            this.caseSensitiveCbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.caseSensitiveCbx.AutoSize = true;
-            this.caseSensitiveCbx.Checked = true;
-            this.caseSensitiveCbx.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.caseSensitiveCbx.Location = new System.Drawing.Point(77, 10);
-            this.caseSensitiveCbx.Name = "caseSensitiveCbx";
-            this.caseSensitiveCbx.Size = new System.Drawing.Size(94, 17);
-            this.caseSensitiveCbx.TabIndex = 1;
-            this.caseSensitiveCbx.Text = "&Case sensitive";
-            this.caseSensitiveCbx.UseVisualStyleBackColor = true;
+            this.ignoreCaseCbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ignoreCaseCbx.AutoSize = true;
+            this.ignoreCaseCbx.Location = new System.Drawing.Point(89, 10);
+            this.ignoreCaseCbx.Name = "ignoreCaseCbx";
+            this.ignoreCaseCbx.Size = new System.Drawing.Size(82, 17);
+            this.ignoreCaseCbx.TabIndex = 1;
+            this.ignoreCaseCbx.Text = "Ignore &case";
+            this.ignoreCaseCbx.UseVisualStyleBackColor = true;
             // 
             // findLbl
             // 
@@ -235,7 +231,7 @@
             this.addFilesBtn.TabIndex = 0;
             this.addFilesBtn.Text = "&Add Files";
             this.addFilesBtn.UseVisualStyleBackColor = true;
-            this.addFilesBtn.Click += new System.EventHandler(this.openFolderBtn_Click);
+            this.addFilesBtn.Click += new System.EventHandler(this.OpenFolderClick);
             // 
             // renameBtn
             // 
@@ -246,7 +242,7 @@
             this.renameBtn.TabIndex = 1;
             this.renameBtn.Text = "&Rename files";
             this.renameBtn.UseVisualStyleBackColor = true;
-            this.renameBtn.Click += new System.EventHandler(this.renameBtn_Click);
+            this.renameBtn.Click += new System.EventHandler(this.RenameClick);
             // 
             // statusbarStStrip
             // 
@@ -324,7 +320,7 @@
         private System.Windows.Forms.Button addFilesBtn;
         private System.Windows.Forms.CheckBox fileExtensionsCbx;
         private System.Windows.Forms.CheckBox useRegexCbx;
-        private System.Windows.Forms.CheckBox caseSensitiveCbx;
+        private System.Windows.Forms.CheckBox ignoreCaseCbx;
         private System.Windows.Forms.Label replaceLbl;
         private System.Windows.Forms.TextBox replacePatternTbx;
         private System.Windows.Forms.StatusStrip statusbarStStrip;
