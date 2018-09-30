@@ -25,6 +25,9 @@ namespace BatchRenamer
             newFilenamesDgv.CellFormatting += (s, e) => FormatCell(e);
             newFilenamesDgv.AutoGenerateColumns = false;
             newFilenamesDgv.DataSource = renamer.FileNames;
+            newFilenamesDgv.RowsAdded += (s, e) => UpdateFilesCount();
+            newFilenamesDgv.RowsRemoved += (s, e) => UpdateFilesCount();
+            newFilenamesDgv.SelectionChanged += (s, e) => UpdateSelectedCount();
 
             normalCellStyle = newFilenamesDgv.DefaultCellStyle;
             duplicateCellStyle = new DataGridViewCellStyle(newFilenamesDgv.DefaultCellStyle) { ForeColor = Color.DarkBlue, SelectionForeColor = Color.DarkBlue };
@@ -38,6 +41,16 @@ namespace BatchRenamer
             replacePatternTbx.DataBindings.Add(nameof(replacePatternTbx.Text), renamer, nameof(renamer.ReplaceString), false, DataSourceUpdateMode.OnPropertyChanged);
 
             renamer.FileNamesChanged += (s, e) => newFilenamesDgv.Refresh();
+        }
+
+        private void UpdateFilesCount()
+        {
+            fileCountStLbl.Text = $"Files: {newFilenamesDgv.RowCount}";
+        }
+
+        private void UpdateSelectedCount()
+        {
+            selectedCountTsLbl.Text = $"Selected: {newFilenamesDgv.SelectedRows.Count}";
         }
 
         private void FormatCell(DataGridViewCellFormattingEventArgs e)

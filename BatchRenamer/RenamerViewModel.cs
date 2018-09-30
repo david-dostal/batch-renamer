@@ -27,7 +27,6 @@ namespace BatchRenamer
         private string replaceString = "";
         public string ReplaceString { get => replaceString; set { replaceString = value; OnFileNamesChanged(); } }
 
-        public int FileCount => FileNames.Count;
 
         public RenamerViewModel()
         {
