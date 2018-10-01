@@ -60,6 +60,7 @@
     <Compile Include="ReplaceOptions.cs" />
     <Compile Include="RenamerViewModel.cs" />
     <Compile Include="ValidationResult.cs" />
+    <Compile Include="WinformsUtils.cs" />
     <EmbeddedResource Include="MainFrmOld.resx">
       <DependentUpon>MainFrmOld.cs</DependentUpon>
     </EmbeddedResource>

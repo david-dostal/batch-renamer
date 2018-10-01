@@ -10,7 +10,7 @@ namespace BatchRenamer
         public event EventHandler<EventArgs> FileNamesChanged;
 
         public BindingList<string> FileNames { get; protected set; } = new BindingList<string>();
-        public IEnumerable<string> RenamedNames => FileNames.Select(RenamedPath);
+        //public IEnumerable<string> RenamedNames => FileNames.Select(RenamedPath);
 
         private bool useRegex = false;
         public bool UseRegex { get => useRegex; set { useRegex = value; OnFileNamesChanged(); } }
@@ -74,14 +74,16 @@ namespace BatchRenamer
         {
             if (FileRenamer.IsInvalidPath(path)) return ValidationResult.InvalidDirectoryName;
             if (FileRenamer.IsInvalidFileName(path)) return ValidationResult.InvalidFileName;
-            if (RenamedNames.Count(p => p == path) > 1) return ValidationResult.DuplicateFileName;
+            //if (RenamedNames.Count(p => p == path) > 1) return ValidationResult.DuplicateFileName;
+            // TODO: remove instant duplicate validation for performance reasons
+            // (duplicates are checked against every filename every time the renamed path changes)
 
             return ValidationResult.ProbablyValid;
         }
 
         public ValidationResult ValidateAll()
         {
-            return RenamedNames
+            return FileNames.Select(RenamedPath)
                 .Select(Validate)
                 .Aggregate(ValidationResult.ProbablyValid,
                     (result, curent) => result | curent);

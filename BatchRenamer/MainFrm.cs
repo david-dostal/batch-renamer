@@ -22,6 +22,7 @@ namespace BatchRenamer
         public MainFrm()
         {
             InitializeComponent();
+            newFilenamesDgv.SetDoubleBuffering(true);
             newFilenamesDgv.CellFormatting += (s, e) => FormatCell(e);
             newFilenamesDgv.AutoGenerateColumns = false;
             newFilenamesDgv.DataSource = renamer.FileNames;
@@ -60,13 +61,13 @@ namespace BatchRenamer
                 e.ColumnIndex == renamedColumnIndex ? renamer.RenamedDisplayName(e.RowIndex) :
                 throw new ArgumentException($"Index {e.ColumnIndex} is not a valid column. This should never happen.");
 
-            ValidationResult valid = renamer.Validate(e.RowIndex);
-            if (valid.HasFlag(ValidationResult.InvalidFileName) || valid.HasFlag(ValidationResult.InvalidDirectoryName))
-                e.CellStyle = invalidCellStyle;
-            else if (valid.HasFlag(ValidationResult.DuplicateFileName))
-                e.CellStyle = duplicateCellStyle;
-            else
-                e.CellStyle = normalCellStyle;
+            //ValidationResult valid = renamer.Validate(e.RowIndex);
+            //if (valid.HasFlag(ValidationResult.InvalidFileName) || valid.HasFlag(ValidationResult.InvalidDirectoryName))
+            //    e.CellStyle = invalidCellStyle;
+            //else if (valid.HasFlag(ValidationResult.DuplicateFileName))
+            //    e.CellStyle = duplicateCellStyle;
+            //else
+            //    e.CellStyle = normalCellStyle;
 
             e.FormattingApplied = true;
         }
@@ -92,15 +93,15 @@ namespace BatchRenamer
 
                 MessageBox.Show(builder.ToString(), "Cannot rename");
             }
-            else if (renamer.RenamedNames.Any(File.Exists))
-                MessageBox.Show("Cannot rename, because files with same name already exist.", "Cannot rename");
+            //else if (renamer.RenamedNames.Any(File.Exists))
+            //    MessageBox.Show("Cannot rename, because files with same name already exist.", "Cannot rename");
             else
             {
                 try
                 {
                     renamer.RenameAll();
                 }
-                catch(Exception ex) // TODO: don't catch generic exception
+                catch (Exception ex) // TODO: don't catch generic exception
                 {
                     MessageBox.Show(ex.Message, "Error while renaming");
                 }
