@@ -61,14 +61,6 @@ namespace BatchRenamer
                 e.ColumnIndex == renamedColumnIndex ? renamer.RenamedDisplayName(e.RowIndex) :
                 throw new ArgumentException($"Index {e.ColumnIndex} is not a valid column. This should never happen.");
 
-            //ValidationResult valid = renamer.Validate(e.RowIndex);
-            //if (valid.HasFlag(ValidationResult.InvalidFileName) || valid.HasFlag(ValidationResult.InvalidDirectoryName))
-            //    e.CellStyle = invalidCellStyle;
-            //else if (valid.HasFlag(ValidationResult.DuplicateFileName))
-            //    e.CellStyle = duplicateCellStyle;
-            //else
-            //    e.CellStyle = normalCellStyle;
-
             e.FormattingApplied = true;
         }
 
@@ -85,16 +77,13 @@ namespace BatchRenamer
             {
                 StringBuilder builder = new StringBuilder();
                 if (valid.HasFlag(ValidationResult.DuplicateFileName))
-                    builder.AppendLine($"The new filenames contain duplicates (highlighted in blue).");
+                    builder.AppendLine($"The new filenames contain duplicates.");
                 if (valid.HasFlag(ValidationResult.InvalidFileName))
-                    builder.AppendLine($"Some filenames contain invalid characters (highlighted in red).");
-                if (valid.HasFlag(ValidationResult.InvalidDirectoryName))
-                    builder.AppendLine($"Some directory names contain invalid characters (highlighted in red).");
+                    builder.AppendLine($"Some filenames contain invalid characters (\\/:*?\"<>|).");
+                builder.AppendLine("No files were renamed.");
 
-                MessageBox.Show(builder.ToString(), "Cannot rename");
+                MessageBox.Show(builder.ToString(), "Cannot rename", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            //else if (renamer.RenamedNames.Any(File.Exists))
-            //    MessageBox.Show("Cannot rename, because files with same name already exist.", "Cannot rename");
             else
             {
                 try

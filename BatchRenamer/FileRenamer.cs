@@ -21,18 +21,32 @@ namespace BatchRenamer
         public static string RegexReplace(string original, ReplaceOptions options)
         {
             RegexOptions regexOptions = options.IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
-            return Regex.Replace(original, options.Find, options.Replace, regexOptions);
+            try
+            {
+                return Regex.Replace(original, options.Find, options.Replace, regexOptions);
+            }
+            catch (ArgumentException)
+            {
+                return original;
+            }
         }
 
-        public static string RenameFile(string path, ReplaceOptions options, Renamer renamer, bool renameExtension)
+        public static string RenamePath(string path, ReplaceOptions options, Renamer renamer, bool renameExtension)
         {
             string directory = Path.GetDirectoryName(path);
-            string fileName = Path.GetFileNameWithoutExtension(path);
-            string extension = Path.GetExtension(path);
+            string fileName = Path.GetFileName(path);
+            return $"{directory}{Path.DirectorySeparatorChar}{RenameFile(fileName, options, renamer, renameExtension)}";
+            // can't use Path.Combine, because it throws an exception when fileName is invalid
+        }
+
+        public static string RenameFile(string fileName, ReplaceOptions options, Renamer renamer, bool renameExtension)
+        {
+            string name = Path.GetFileNameWithoutExtension(fileName);
+            string extension = Path.GetExtension(fileName);
 
             return renameExtension ?
-                 Path.Combine(directory, renamer(fileName + extension, options)) :
-                 Path.Combine(directory, renamer(fileName, options) + extension);
+                renamer(name + extension, options) :
+                renamer(name, options) + extension;
         }
 
         public static string DisplayName(string path, bool showExtension)
@@ -42,17 +56,10 @@ namespace BatchRenamer
                 Path.GetFileNameWithoutExtension(path);
         }
 
-        public static bool IsInvalidFileName(string path)
+        public static bool IsInvalidFileName(string fileName)
         {
-            string fileName = Path.GetFileName(path);
             return Path.GetInvalidFileNameChars()
                 .Any(c => fileName.Contains(c));
-        }
-
-        public static bool IsInvalidPath(string path)
-        {
-            return Path.GetInvalidPathChars()
-                .Any(c => path.Contains(c));
         }
     }
 }

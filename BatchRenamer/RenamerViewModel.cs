@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 
 namespace BatchRenamer
@@ -10,7 +11,6 @@ namespace BatchRenamer
         public event EventHandler<EventArgs> FileNamesChanged;
 
         public BindingList<string> FileNames { get; protected set; } = new BindingList<string>();
-        //public IEnumerable<string> RenamedNames => FileNames.Select(RenamedPath);
 
         private bool useRegex = false;
         public bool UseRegex { get => useRegex; set { useRegex = value; OnFileNamesChanged(); } }
@@ -27,6 +27,8 @@ namespace BatchRenamer
         private string replaceString = "";
         public string ReplaceString { get => replaceString; set { replaceString = value; OnFileNamesChanged(); } }
 
+        private FileRenamer.Renamer Renamer => UseRegex ? (FileRenamer.Renamer)FileRenamer.RegexReplace : FileRenamer.StringReplace;
+        private ReplaceOptions Options => new ReplaceOptions(FindString, ReplaceString, IgnoreCase);
 
         public RenamerViewModel()
         {
@@ -52,9 +54,7 @@ namespace BatchRenamer
         public string RenamedPath(int index) => RenamedPath(OriginalPath(index));
         private string RenamedPath(string path)
         {
-            FileRenamer.Renamer renamer = UseRegex ? (FileRenamer.Renamer)FileRenamer.RegexReplace : FileRenamer.StringReplace;
-            ReplaceOptions options = new ReplaceOptions(FindString, ReplaceString, IgnoreCase);
-            return FileRenamer.RenameFile(path, options, renamer, ShowExtensions);
+            return FileRenamer.RenamePath(path, Options, Renamer, ShowExtensions);
         }
 
         public string DisplayName(int index)
@@ -63,30 +63,24 @@ namespace BatchRenamer
             return FileRenamer.DisplayName(path, ShowExtensions);
         }
 
-        public string RenamedDisplayName(int index)
+        public string RenamedDisplayName(int index) => RenamedDisplayName(FileNames[index]);
+        public string RenamedDisplayName(string path)
         {
-            string path = FileNames[index];
-            return FileRenamer.DisplayName(RenamedPath(path), ShowExtensions);
-        }
-
-        public ValidationResult Validate(int index) => Validate(RenamedPath(FileNames[index]));
-        private ValidationResult Validate(string path)
-        {
-            if (FileRenamer.IsInvalidPath(path)) return ValidationResult.InvalidDirectoryName;
-            if (FileRenamer.IsInvalidFileName(path)) return ValidationResult.InvalidFileName;
-            //if (RenamedNames.Count(p => p == path) > 1) return ValidationResult.DuplicateFileName;
-            // TODO: remove instant duplicate validation for performance reasons
-            // (duplicates are checked against every filename every time the renamed path changes)
-
-            return ValidationResult.ProbablyValid;
+            return FileRenamer.RenameFile(FileRenamer.DisplayName(path, ShowExtensions), Options, Renamer, ShowExtensions);
         }
 
         public ValidationResult ValidateAll()
         {
-            return FileNames.Select(RenamedPath)
-                .Select(Validate)
-                .Aggregate(ValidationResult.ProbablyValid,
-                    (result, curent) => result | curent);
+            IEnumerable<string> renamedFiles = FileNames.Select(RenamedDisplayName);
+            IEnumerable<string> renamedPaths = FileNames.Select(RenamedPath);
+
+            IEnumerable<string> invalidFileNames = renamedFiles.Where(FileRenamer.IsInvalidFileName);
+            Dictionary<string, int> duplicates = renamedPaths.GroupBy(name => name).Where(g => g.Count() > 1).ToDictionary(g => g.Key, g => g.Count());
+
+            ValidationResult result = ValidationResult.ProbablyValid;
+            if (invalidFileNames.Count() > 0) result |= ValidationResult.InvalidFileName;
+            if (duplicates.Count > 0) result |= ValidationResult.DuplicateFileName;
+            return result;
         }
 
         public void OnFileNamesChanged() => FileNamesChanged?.Invoke(this, EventArgs.Empty);

@@ -1,10 +1,12 @@
-﻿namespace BatchRenamer
+﻿using System;
+
+namespace BatchRenamer
 {
+    [Flags]
     public enum ValidationResult
     {
-        ProbablyValid = 1,
-        DuplicateFileName = 2,
-        InvalidFileName = 3,
-        InvalidDirectoryName = 4
+        ProbablyValid = 0,
+        DuplicateFileName = 1,
+        InvalidFileName = 2,
     }
 }
