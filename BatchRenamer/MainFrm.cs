@@ -51,7 +51,7 @@ namespace BatchRenamer
 
         private void UpdateSelectedCount()
         {
-            selectedCountTsLbl.Text = $"Selected: {newFilenamesDgv.SelectedRows.Count}";
+            selectedCountTsLbl.Text = $"Selected: {newFilenamesDgv.Rows.GetRowCount(DataGridViewElementStates.Selected)}";
         }
 
         private void FormatCell(DataGridViewCellFormattingEventArgs e)
