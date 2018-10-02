@@ -41,7 +41,7 @@ namespace BatchRenamer
             findPatternTbx.DataBindings.Add(nameof(findPatternTbx.Text), renamer, nameof(renamer.FindString), false, DataSourceUpdateMode.OnPropertyChanged);
             replacePatternTbx.DataBindings.Add(nameof(replacePatternTbx.Text), renamer, nameof(renamer.ReplaceString), false, DataSourceUpdateMode.OnPropertyChanged);
 
-            renamer.FileNamesChanged += (s, e) => newFilenamesDgv.Refresh();
+            renamer.FileNamesChanged += (s, e) => newFilenamesDgv.InvalidateColumn(renamedColumnIndex);
         }
 
         private void UpdateFilesCount()

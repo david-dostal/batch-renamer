@@ -8,6 +8,7 @@ namespace BatchRenamer
     public static class FileRenamer
     {
         public delegate string Renamer(string original, ReplaceOptions options);
+        private static RegexUtils regexUtils = new RegexUtils();
 
         public static string StringReplace(string original, ReplaceOptions options)
         {
@@ -21,14 +22,8 @@ namespace BatchRenamer
         public static string RegexReplace(string original, ReplaceOptions options)
         {
             RegexOptions regexOptions = options.IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
-            try
-            {
-                return Regex.Replace(original, options.Find, options.Replace, regexOptions);
-            }
-            catch (ArgumentException)
-            {
-                return original;
-            }
+            // cache last failed pattern to prevent excessive exceptions
+            return regexUtils.CachedTryReplace(original, options.Find, options.Replace, regexOptions, out bool success);
         }
 
         public static string RenamePath(string path, ReplaceOptions options, Renamer renamer, bool renameExtension)
