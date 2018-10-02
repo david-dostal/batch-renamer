@@ -26,6 +26,13 @@ namespace BatchRenamer
             return regexUtils.CachedTryReplace(original, options.Find, options.Replace, regexOptions, out bool success);
         }
 
+        public static bool RegexValid(ReplaceOptions options)
+        {
+            RegexOptions regexOptions = options.IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
+            regexUtils.CachedTryReplace("", options.Find, options.Replace, RegexOptions.None, out bool success);
+            return success;
+        }
+
         public static string RenamePath(string path, ReplaceOptions options, Renamer renamer, bool renameExtension)
         {
             string directory = Path.GetDirectoryName(path);

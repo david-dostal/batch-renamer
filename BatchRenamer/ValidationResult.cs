@@ -8,5 +8,6 @@ namespace BatchRenamer
         ProbablyValid = 0,
         DuplicateFileName = 1,
         InvalidFileName = 2,
+        InvalidRegex = 4,
     }
 }

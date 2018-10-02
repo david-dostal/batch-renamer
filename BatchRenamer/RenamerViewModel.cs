@@ -80,6 +80,7 @@ namespace BatchRenamer
             ValidationResult result = ValidationResult.ProbablyValid;
             if (invalidFileNames.Count() > 0) result |= ValidationResult.InvalidFileName;
             if (duplicates.Count > 0) result |= ValidationResult.DuplicateFileName;
+            if (UseRegex && !FileRenamer.RegexValid(Options)) result |= ValidationResult.InvalidRegex;
             return result;
         }
 

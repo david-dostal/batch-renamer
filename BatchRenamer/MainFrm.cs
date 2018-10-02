@@ -80,6 +80,8 @@ namespace BatchRenamer
                     builder.AppendLine($"The new filenames contain duplicates.");
                 if (valid.HasFlag(ValidationResult.InvalidFileName))
                     builder.AppendLine($"Some filenames contain invalid characters (\\/:*?\"<>|).");
+                if (valid.HasFlag(ValidationResult.InvalidRegex))
+                    builder.AppendLine($"The regex pattern is not valid.");
                 builder.AppendLine("No files were renamed.");
 
                 MessageBox.Show(builder.ToString(), "Cannot rename", MessageBoxButtons.OK, MessageBoxIcon.Error);
