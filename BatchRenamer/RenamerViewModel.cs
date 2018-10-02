@@ -37,7 +37,20 @@ namespace BatchRenamer
 
         public void RenameAll()
         {
+            FileNames.RaiseListChangedEvents = false;
+            for (int i = 0; i < FileNames.Count; i++)
+            {
+                string oldPath = FileNames[i];
+                string newPath = RenamedPath(oldPath);
+                if (File.Exists(oldPath) && !File.Exists(newPath)) // TODO: rename if only case differs
+                {
+                    File.Move(oldPath, newPath);
+                    FileNames[i] = newPath;
+                }
 
+            }
+            FileNames.RaiseListChangedEvents = true;
+            FileNames.ResetBindings();
         }
 
         public void AddFiles(IEnumerable<string> fileNames)
