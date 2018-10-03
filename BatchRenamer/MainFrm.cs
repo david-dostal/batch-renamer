@@ -92,7 +92,10 @@ namespace BatchRenamer
                 {
                     renamer.RenameAll();
                 }
-                catch (Exception ex) // TODO: don't catch generic exception
+                // TODO: improve error reporting
+                catch (IOException ex) { MessageBox.Show("Couldn't rename file"); }
+                catch (ArgumentException ex) { }
+                catch (Exception ex) 
                 {
                     MessageBox.Show(ex.Message, "Error while renaming");
                 }

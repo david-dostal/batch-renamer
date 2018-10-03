@@ -42,12 +42,13 @@ namespace BatchRenamer
             {
                 string oldPath = FileNames[i];
                 string newPath = RenamedPath(oldPath);
-                if (File.Exists(oldPath) && !File.Exists(newPath)) // TODO: rename if only case differs
+                if (FileUtils.FileExistsCaseSensitive(oldPath) && !FileUtils.FileExistsCaseSensitive(newPath))
                 {
-                    File.Move(oldPath, newPath);
+                    FileUtils.MoveCaseSensitive(oldPath, newPath, out bool success);
+                    if (!success) throw new IOException("Couldn't move file.");
                     FileNames[i] = newPath;
                 }
-
+                else throw new ArgumentException("A file with the same name already exists.");
             }
             FileNames.RaiseListChangedEvents = true;
             FileNames.ResetBindings();
@@ -57,7 +58,8 @@ namespace BatchRenamer
         {
             FileNames.RaiseListChangedEvents = false;
             foreach (string path in fileNames)
-                FileNames.Add(path);
+                if (!FileNames.Contains(path))
+                    FileNames.Add(path);
             FileNames.RaiseListChangedEvents = true;
             FileNames.ResetBindings();
         }
