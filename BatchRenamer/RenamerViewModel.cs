@@ -72,9 +72,10 @@ namespace BatchRenamer
 
             foreach(string path in FileNames)
             {
+                string renamedPath = RenamedPath(path);
                 ValidationResult result = ValidationResult.ProbablyValid;
                 if (FileRenamer.IsInvalidFileName(RenamedDisplayName(path))) result |= ValidationResult.InvalidFileName;
-                if (renamedPaths.Count(f => f == path) > 1) result |= ValidationResult.DuplicateFileName;
+                if (renamedPaths.Count(f => f == renamedPath) > 1) result |= ValidationResult.DuplicateFileName;
                 if (UseRegex && !FileRenamer.RegexValid(Options)) result |= ValidationResult.InvalidRegex;
 
                 results.Add(path, result);
