@@ -7,24 +7,25 @@ namespace BatchRenamer
 {
     public class RenamerViewModel
     {
-        public event EventHandler<EventArgs> FileNamesChanged;
+        public event EventHandler<EventArgs> RenamedNamesChanged;
+        public event EventHandler<EventArgs> OriginalNamesChanged;
 
         public BindingList<string> FileNames { get; protected set; } = new BindingList<string>();
 
         private bool useRegex = false;
-        public bool UseRegex { get => useRegex; set { useRegex = value; OnFileNamesChanged(); } }
+        public bool UseRegex { get => useRegex; set { useRegex = value; OnRenamedNamesChanged(); } }
 
         private bool showExtensions = false;
-        public bool ShowExtensions { get => showExtensions; set { showExtensions = value; OnFileNamesChanged(); } }
+        public bool ShowExtensions { get => showExtensions; set { showExtensions = value; OnOriginalNamesChanged(); OnRenamedNamesChanged(); } }
 
         private bool ignoreCase = false;
-        public bool IgnoreCase { get => ignoreCase; set { ignoreCase = value; OnFileNamesChanged(); } }
+        public bool IgnoreCase { get => ignoreCase; set { ignoreCase = value; OnRenamedNamesChanged(); } }
 
         private string findString = "";
-        public string FindString { get => findString; set { findString = value; OnFileNamesChanged(); } }
+        public string FindString { get => findString; set { findString = value; OnRenamedNamesChanged(); } }
 
         private string replaceString = "";
-        public string ReplaceString { get => replaceString; set { replaceString = value; OnFileNamesChanged(); } }
+        public string ReplaceString { get => replaceString; set { replaceString = value; OnRenamedNamesChanged(); } }
 
         private FileRenamer.Renamer Renamer => UseRegex ? (FileRenamer.Renamer)FileRenamer.RegexReplace : FileRenamer.StringReplace;
         private ReplaceOptions Options => new ReplaceOptions(FindString, ReplaceString, IgnoreCase);
@@ -110,6 +111,7 @@ namespace BatchRenamer
             return results;
         }
 
-        public void OnFileNamesChanged() => FileNamesChanged?.Invoke(this, EventArgs.Empty);
+        public void OnRenamedNamesChanged() => RenamedNamesChanged?.Invoke(this, EventArgs.Empty);
+        public void OnOriginalNamesChanged() => OriginalNamesChanged?.Invoke(this, EventArgs.Empty);
     }
 }
