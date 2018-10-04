@@ -12,10 +12,6 @@ namespace BatchRenamer
     {
         private RenamerViewModel renamer = new RenamerViewModel();
 
-        private DataGridViewCellStyle normalCellStyle;
-        private DataGridViewCellStyle duplicateCellStyle;
-        private DataGridViewCellStyle invalidCellStyle;
-
         private const int originalColumnIndex = 0;
         private const int renamedColumnIndex = 1;
 
@@ -29,10 +25,6 @@ namespace BatchRenamer
             newFilenamesDgv.RowsAdded += (s, e) => UpdateFilesCount();
             newFilenamesDgv.RowsRemoved += (s, e) => UpdateFilesCount();
             newFilenamesDgv.SelectionChanged += (s, e) => UpdateSelectedCount();
-
-            normalCellStyle = newFilenamesDgv.DefaultCellStyle;
-            duplicateCellStyle = new DataGridViewCellStyle(newFilenamesDgv.DefaultCellStyle) { ForeColor = Color.DarkBlue, SelectionForeColor = Color.DarkBlue };
-            invalidCellStyle = new DataGridViewCellStyle(newFilenamesDgv.DefaultCellStyle) { ForeColor = Color.Firebrick, SelectionForeColor = Color.Firebrick };
 
             ignoreCaseCbx.DataBindings.Add(nameof(ignoreCaseCbx.Checked), renamer, nameof(renamer.IgnoreCase), false, DataSourceUpdateMode.OnPropertyChanged);
             useRegexCbx.DataBindings.Add(nameof(useRegexCbx.Checked), renamer, nameof(renamer.UseRegex), false, DataSourceUpdateMode.OnPropertyChanged);
