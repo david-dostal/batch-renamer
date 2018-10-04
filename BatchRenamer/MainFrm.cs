@@ -72,39 +72,37 @@ namespace BatchRenamer
 
         private void RenameClick(object sender, EventArgs e)
         {
-            ValidationResult valid = renamer.ValidateAll();
-            if (valid != ValidationResult.ProbablyValid)
+            Dictionary<string, ValidationResult> validationResults = renamer.ValidateAll();
+            if (!validationResults.Values.All(r => r == ValidationResult.ProbablyValid))
             {
-                StringBuilder builder = new StringBuilder();
-                if (valid.HasFlag(ValidationResult.DuplicateFileName))
-                    builder.AppendLine("The new filenames contain duplicates.");
-                if (valid.HasFlag(ValidationResult.InvalidFileName))
-                    builder.AppendLine("Some filenames contain invalid characters (\\/:*?\"<>|).");
-                if (valid.HasFlag(ValidationResult.InvalidRegex))
-                    builder.AppendLine("The regex pattern is not valid.");
-                builder.AppendLine("No files were renamed.");
+                StringBuilder message = new StringBuilder();
+                if (validationResults.Values.Any(r => r.HasFlag(ValidationResult.DuplicateFileName)))
+                    message.AppendLine("The new filenames contain duplicates.");
+                if (validationResults.Values.Any(r => r.HasFlag(ValidationResult.InvalidFileName)))
+                    message.AppendLine("Some filenames contain invalid characters (\\/:*?\"<>|).");
+                if (validationResults.Values.Any(r => r.HasFlag(ValidationResult.InvalidRegex)))
+                    message.AppendLine("The regex pattern is not valid.");
+                message.AppendLine("No files were renamed.");
 
-                MessageBox.Show(builder.ToString(), "Cannot rename", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(message.ToString(), "Cannot rename", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else
+
+            Dictionary<string, RenameResult> renamingResults = new Dictionary<string, RenameResult>();
+            try { renamingResults = renamer.RenameAll(); }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Unexpected error while renaming.", MessageBoxButtons.OK, MessageBoxIcon.Error); return; } // This should not happen
+
+            if (!renamingResults.Values.All(r => r == RenameResult.Success))
             {
-                Dictionary<string, RenameResult> results = new Dictionary<string, RenameResult>();
+                StringBuilder message = new StringBuilder();
+                if (renamingResults.Values.Any(r => r.HasFlag(RenameResult.FileDoesntExist)))
+                    message.AppendLine("Some files you're trying to rename don't exist anymore.");
+                if (renamingResults.Values.Any(r => r.HasFlag(RenameResult.FileNameAlreadyExists)))
+                    message.AppendLine("Some files couldn't be renamed, because a file with the same name already exists.");
+                if (renamingResults.Values.Any(r => r.HasFlag(RenameResult.CannotRename)))
+                    message.AppendLine("Couldn't rename some files.");
 
-                try { results = renamer.RenameAll(); }
-                catch (Exception ex) { MessageBox.Show(ex.Message, "Unexpected error while renaming.", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-
-                if (!results.Values.All(r => r == RenameResult.Success))
-                {
-                    StringBuilder builder = new StringBuilder();
-                    if (results.Values.Any(r => r.HasFlag(RenameResult.FileDoesntExist)))
-                        builder.AppendLine("Some files you're trying to rename don't exist anymore.");
-                    if (results.Values.Any(r => r.HasFlag(RenameResult.FileNameAlreadyExists)))
-                        builder.AppendLine("Some files couldn't be renamed, because a file with the same name already exists.");
-                    if (results.Values.Any(r => r.HasFlag(RenameResult.CannotRename)))
-                        builder.AppendLine("Couldn't rename some files.");
-
-                    MessageBox.Show(builder.ToString(), "Errors while renaming", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MessageBox.Show(message.ToString(), "Errors while renaming", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

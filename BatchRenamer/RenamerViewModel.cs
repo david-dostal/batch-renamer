@@ -34,34 +34,6 @@ namespace BatchRenamer
             FileNames.AllowEdit = false;
         }
 
-        public Dictionary<string, RenameResult> RenameAll()
-        {
-            Dictionary<string, RenameResult> results = new Dictionary<string, RenameResult>();
-
-            FileNames.RaiseListChangedEvents = false;
-            for (int i = 0; i < FileNames.Count; i++)
-            {
-                RenameResult result = RenameResult.Success;
-                string oldPath = FileNames[i];
-                string newPath = RenamedPath(oldPath);
-
-                if (!FileUtils.FileExistsCaseSensitive(oldPath)) result |= RenameResult.FileDoesntExist;
-                if ((oldPath != newPath) && FileUtils.FileExistsCaseSensitive(newPath)) result |= RenameResult.FileNameAlreadyExists;
-
-                if (result == RenameResult.Success && oldPath != newPath)
-                {
-                    FileUtils.MoveCaseSensitive(oldPath, newPath, out bool success);
-                    if (success) FileNames[i] = newPath;
-                    else result |= RenameResult.CannotRename;
-                }
-
-                results.Add(oldPath, result);
-            }
-            FileNames.RaiseListChangedEvents = true;
-            FileNames.ResetBindings();
-            return results;
-        }
-
         public void AddFiles(IEnumerable<string> fileNames)
         {
             FileNames.RaiseListChangedEvents = false;
@@ -92,19 +64,50 @@ namespace BatchRenamer
             return FileRenamer.RenameFile(FileRenamer.DisplayName(path, ShowExtensions), Options, Renamer, ShowExtensions);
         }
 
-        public ValidationResult ValidateAll()
+        public Dictionary<string, ValidationResult> ValidateAll()
         {
-            IEnumerable<string> renamedFiles = FileNames.Select(RenamedDisplayName);
+            Dictionary<string, ValidationResult> results = new Dictionary<string, ValidationResult>();
             IEnumerable<string> renamedPaths = FileNames.Select(RenamedPath);
 
-            IEnumerable<string> invalidFileNames = renamedFiles.Where(FileRenamer.IsInvalidFileName);
-            Dictionary<string, int> duplicates = renamedPaths.GroupBy(name => name).Where(g => g.Count() > 1).ToDictionary(g => g.Key, g => g.Count());
+            foreach(string path in FileNames)
+            {
+                ValidationResult result = ValidationResult.ProbablyValid;
+                if (FileRenamer.IsInvalidFileName(RenamedDisplayName(path))) result |= ValidationResult.InvalidFileName;
+                if (renamedPaths.Count(f => f == path) > 1) result |= ValidationResult.DuplicateFileName;
+                if (UseRegex && !FileRenamer.RegexValid(Options)) result |= ValidationResult.InvalidRegex;
 
-            ValidationResult result = ValidationResult.ProbablyValid;
-            if (invalidFileNames.Count() > 0) result |= ValidationResult.InvalidFileName;
-            if (duplicates.Count > 0) result |= ValidationResult.DuplicateFileName;
-            if (UseRegex && !FileRenamer.RegexValid(Options)) result |= ValidationResult.InvalidRegex;
-            return result;
+                results.Add(path, result);
+            }
+
+            return results;
+        }
+
+        public Dictionary<string, RenameResult> RenameAll()
+        {
+            Dictionary<string, RenameResult> results = new Dictionary<string, RenameResult>();
+
+            FileNames.RaiseListChangedEvents = false;
+            for (int i = 0; i < FileNames.Count; i++)
+            {
+                RenameResult result = RenameResult.Success;
+                string oldPath = FileNames[i];
+                string newPath = RenamedPath(oldPath);
+
+                if (!FileUtils.FileExistsCaseSensitive(oldPath)) result |= RenameResult.FileDoesntExist;
+                if ((oldPath != newPath) && FileUtils.FileExistsCaseSensitive(newPath)) result |= RenameResult.FileNameAlreadyExists;
+
+                if (result == RenameResult.Success && oldPath != newPath)
+                {
+                    FileUtils.MoveCaseSensitive(oldPath, newPath, out bool success);
+                    if (success) FileNames[i] = newPath;
+                    else result |= RenameResult.CannotRename;
+                }
+
+                results.Add(oldPath, result);
+            }
+            FileNames.RaiseListChangedEvents = true;
+            FileNames.ResetBindings();
+            return results;
         }
 
         public void OnFileNamesChanged() => FileNamesChanged?.Invoke(this, EventArgs.Empty);
