@@ -77,27 +77,33 @@ namespace BatchRenamer
             {
                 StringBuilder builder = new StringBuilder();
                 if (valid.HasFlag(ValidationResult.DuplicateFileName))
-                    builder.AppendLine($"The new filenames contain duplicates.");
+                    builder.AppendLine("The new filenames contain duplicates.");
                 if (valid.HasFlag(ValidationResult.InvalidFileName))
-                    builder.AppendLine($"Some filenames contain invalid characters (\\/:*?\"<>|).");
+                    builder.AppendLine("Some filenames contain invalid characters (\\/:*?\"<>|).");
                 if (valid.HasFlag(ValidationResult.InvalidRegex))
-                    builder.AppendLine($"The regex pattern is not valid.");
+                    builder.AppendLine("The regex pattern is not valid.");
                 builder.AppendLine("No files were renamed.");
 
                 MessageBox.Show(builder.ToString(), "Cannot rename", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                try
+                Dictionary<string, RenameResult> results = new Dictionary<string, RenameResult>();
+
+                try { results = renamer.RenameAll(); }
+                catch (Exception ex) { MessageBox.Show(ex.Message, "Unexpected error while renaming.", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+
+                if (!results.Values.All(r => r == RenameResult.Success))
                 {
-                    renamer.RenameAll();
-                }
-                // TODO: improve error reporting
-                catch (IOException ex) { MessageBox.Show("Couldn't rename file"); }
-                catch (ArgumentException ex) { }
-                catch (Exception ex) 
-                {
-                    MessageBox.Show(ex.Message, "Error while renaming");
+                    StringBuilder builder = new StringBuilder();
+                    if (results.Values.Any(r => r.HasFlag(RenameResult.FileDoesntExist)))
+                        builder.AppendLine("Some files you're trying to rename don't exist anymore.");
+                    if (results.Values.Any(r => r.HasFlag(RenameResult.FileNameAlreadyExists)))
+                        builder.AppendLine("Some files couldn't be renamed, because a file with the same name already exists.");
+                    if (results.Values.Any(r => r.HasFlag(RenameResult.CannotRename)))
+                        builder.AppendLine("Couldn't rename some files.");
+
+                    MessageBox.Show(builder.ToString(), "Errors while renaming", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

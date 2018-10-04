@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 
 namespace BatchRenamer
@@ -35,23 +34,32 @@ namespace BatchRenamer
             FileNames.AllowEdit = false;
         }
 
-        public void RenameAll()
+        public Dictionary<string, RenameResult> RenameAll()
         {
+            Dictionary<string, RenameResult> results = new Dictionary<string, RenameResult>();
+
             FileNames.RaiseListChangedEvents = false;
             for (int i = 0; i < FileNames.Count; i++)
             {
+                RenameResult result = RenameResult.Success;
                 string oldPath = FileNames[i];
                 string newPath = RenamedPath(oldPath);
-                if (FileUtils.FileExistsCaseSensitive(oldPath) && !FileUtils.FileExistsCaseSensitive(newPath))
+
+                if (!FileUtils.FileExistsCaseSensitive(oldPath)) result |= RenameResult.FileDoesntExist;
+                if ((oldPath != newPath) && FileUtils.FileExistsCaseSensitive(newPath)) result |= RenameResult.FileNameAlreadyExists;
+
+                if (result == RenameResult.Success && oldPath != newPath)
                 {
                     FileUtils.MoveCaseSensitive(oldPath, newPath, out bool success);
-                    if (!success) throw new IOException("Couldn't move file.");
-                    FileNames[i] = newPath;
+                    if (success) FileNames[i] = newPath;
+                    else result |= RenameResult.CannotRename;
                 }
-                else throw new ArgumentException("A file with the same name already exists.");
+
+                results.Add(oldPath, result);
             }
             FileNames.RaiseListChangedEvents = true;
             FileNames.ResetBindings();
+            return results;
         }
 
         public void AddFiles(IEnumerable<string> fileNames)
